@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* RESET Y BODY */
 html, body {
   margin:0;
   padding:0;
@@ -14,6 +13,7 @@ html, body {
   font-family:-apple-system, BlinkMacSystemFont, sans-serif;
   background:#ffffff;
   color:#111;
+  position:relative;
 }
 
 /* HEADER */
@@ -23,6 +23,8 @@ header{
   justify-content:space-between;
   align-items:center;
   border-bottom:1px solid #eee;
+  position:relative;
+  z-index:1001;
 }
 
 .logo{
@@ -35,6 +37,7 @@ header{
   cursor:pointer;
   position:relative;
   font-size:20px;
+  z-index:1001;
 }
 
 #contador{
@@ -118,6 +121,17 @@ button:hover{
 }
 
 /* CARRITO */
+#overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.3);
+  display:none;
+  z-index:1000;
+}
+
 #carrito{
   position:fixed;
   top:0;
@@ -131,7 +145,7 @@ button:hover{
   transform: translateX(100%);
   transition: transform 0.3s ease;
   overflow-y:auto;
-  z-index:1000;
+  z-index:1001;
 }
 
 #carrito.abierto{
@@ -190,6 +204,9 @@ button:hover{
 
 </div>
 
+<!-- OVERLAY PARA CERRAR AL TOCAR FUERA -->
+<div id="overlay" onclick="cerrarCarrito()"></div>
+
 <div id="carrito">
   <h3>Carrito</h3>
   <div id="items"></div>
@@ -202,59 +219,3 @@ button:hover{
 var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 function guardar(){
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
-function agregar(nombre,precio){
-  var encontrado=false;
-  for(var i=0;i<carrito.length;i++){
-    if(carrito[i].nombre===nombre){
-      carrito[i].cantidad++;
-      encontrado=true;
-    }
-  }
-  if(!encontrado){
-    carrito.push({nombre:nombre,precio:precio,cantidad:1});
-  }
-  guardar();
-  actualizar();
-}
-
-function actualizar(){
-  var itemsDiv=document.getElementById("items");
-  var total=0;
-  var contador=0;
-  itemsDiv.innerHTML="";
-  for(var i=0;i<carrito.length;i++){
-    total+=carrito[i].precio*carrito[i].cantidad;
-    contador+=carrito[i].cantidad;
-    itemsDiv.innerHTML+="<div class='item'>"+
-    carrito[i].nombre+"<br>$"+
-    carrito[i].precio+" x "+
-    carrito[i].cantidad+
-    "<br><button onclick='sumar("+i+")'>+</button>"+
-    "<button onclick='restar("+i+")'>-</button>"+
-    "<button class='eliminar' onclick='eliminar("+i+")'>Eliminar</button></div>";
-  }
-  document.getElementById("total").innerHTML="Total: $"+total;
-  document.getElementById("contador").innerHTML=contador;
-}
-
-function sumar(i){carrito[i].cantidad++;guardar();actualizar();}
-function restar(i){carrito[i].cantidad--;if(carrito[i].cantidad<=0){carrito.splice(i,1);}guardar();actualizar();}
-function eliminar(i){carrito.splice(i,1);guardar();actualizar();}
-function vaciar(){carrito=[];guardar();actualizar();}
-
-function abrirCarrito(){
-  document.getElementById("carrito").classList.add("abierto");
-}
-
-function cerrarCarrito(){
-  document.getElementById("carrito").classList.remove("abierto");
-}
-
-actualizar();
-</script>
-
-</body>
-</html>
