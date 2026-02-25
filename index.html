@@ -5,191 +5,44 @@
 <title>iplugz - Accesorios Premium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-html, body {
-  margin:0;
-  padding:0;
-  overflow-x:hidden;
-  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-  background:#fff;
-  color:#111;
-}
+html, body { margin:0; padding:0; overflow-x:hidden; font-family:-apple-system, BlinkMacSystemFont, sans-serif; background:#fff; color:#111; }
 
 /* HEADER FIJO */
-header{
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  background:white;
-  padding:20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #eee;
-  z-index:1000;
-  box-sizing:border-box;
-}
+header{ position: fixed; top:0; left:0; width:100%; background:white; padding:20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; z-index:1000; box-sizing:border-box; }
+.logo{ font-size:22px; font-weight:600; letter-spacing:1px; }
+#carritoIcono{ cursor:pointer; position:relative; font-size:24px; }
+#contador{ position:absolute; top:-8px; right:-10px; background:#111; color:white; border-radius:50%; padding:3px 6px; font-size:12px; transition: transform 0.3s ease; }
 
-.logo{
-  font-size:22px;
-  font-weight:600;
-  letter-spacing:1px;
-}
-
-#carritoIcono{
-  cursor:pointer;
-  position:relative;
-  font-size:24px;
-}
-
-#contador{
-  position:absolute;
-  top:-8px;
-  right:-10px;
-  background:#111;
-  color:white;
-  border-radius:50%;
-  padding:3px 6px;
-  font-size:12px;
-  transition: transform 0.3s ease;
-}
-
-/* HACK: ESPACIO PARA HEADER */
-body > .contenido{
-  padding-top:80px; /* igual al header */
-}
+/* ESPACIO PARA HEADER */
+body > .contenido{ padding-top:80px; }
 
 /* HERO */
-.hero{
-  text-align:center;
-  padding:60px 20px;
-}
-
-.hero h1{
-  font-size:24px;
-  font-weight:500;
-}
-
-.hero p{
-  color:#666;
-  margin-top:10px;
-}
+.hero{ text-align:center; padding:60px 20px; }
+.hero h1{ font-size:24px; font-weight:500; }
+.hero p{ color:#666; margin-top:10px; }
 
 /* PRODUCTOS */
-.productos{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-  padding:20px;
-  box-sizing:border-box;
-}
-
-.producto{
-  width:100%;
-  max-width:260px;
-  text-align:center;
-  box-sizing:border-box;
-  position:relative;
-}
-
-.producto img{
-  width:100%;
-  border-radius:20px;
-  transition:0.3s;
-}
-
-.producto img:hover{
-  transform:scale(1.05);
-}
-
-.producto h3{
-  margin:15px 0 5px;
-  font-weight:500;
-}
-
-.producto p{
-  color:#666;
-}
-
-button{
-  background:#111;
-  color:white;
-  border:none;
-  padding:12px;
-  width:100%;
-  border-radius:20px;
-  margin-top:10px;
-  cursor:pointer;
-  transition:0.3s;
-  font-size:16px;
-}
-
-button:hover{
-  background:#333;
-}
+.productos{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; box-sizing:border-box; }
+.producto{ width:100%; max-width:260px; text-align:center; box-sizing:border-box; position:relative; }
+.producto img{ width:100%; border-radius:20px; transition:0.3s; }
+.producto img:hover{ transform:scale(1.05); }
+.producto h3{ margin:15px 0 5px; font-weight:500; }
+.producto p{ color:#666; }
+button{ background:#111; color:white; border:none; padding:12px; width:100%; border-radius:20px; margin-top:10px; cursor:pointer; transition:0.3s; font-size:16px; }
+button:hover{ background:#333; }
 
 /* OVERLAY */
-#overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.3);
-  display:none;
-  z-index:999;
-}
+#overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index:999; }
 
 /* CARRITO */
-#carrito{
-  position:fixed;
-  top:0;
-  right:0;
-  width:80%;
-  max-width:320px;
-  height:100%;
-  background:white;
-  box-shadow:-5px 0 15px rgba(0,0,0,0.1);
-  padding:20px;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  overflow-y:auto;
-  z-index:1000;
-}
-
-#carrito.abierto{
-  transform: translateX(0);
-}
-
-.item{
-  border-bottom:1px solid #eee;
-  padding:10px 0;
-}
-
-.item button{
-  width:30px;
-  height:30px;
-  font-size:16px;
-  margin-right:5px;
-}
-
-.eliminar{
-  background:#e53935;
-  width:100%;
-  margin-top:5px;
-}
+#carrito{ position:fixed; top:0; right:0; width:80%; max-width:320px; height:100%; background:white; box-shadow:-5px 0 15px rgba(0,0,0,0.1); padding:20px; transform: translateX(100%); transition: transform 0.3s ease; overflow-y:auto; z-index:1000; }
+#carrito.abierto{ transform: translateX(0); }
+.item{ border-bottom:1px solid #eee; padding:10px 0; }
+.item button{ width:30px; height:30px; font-size:16px; margin-right:5px; }
+.eliminar{ background:#e53935; width:100%; margin-top:5px; }
 
 /* ANIMACIÓN FLY */
-.flyImg{
-  position:absolute;
-  width:100px;
-  height:100px;
-  border-radius:20px;
-  z-index:10000;
-  pointer-events:none;
-  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
-}
+.flyImg{ position:absolute; width:100px; height:100px; border-radius:20px; z-index:10000; pointer-events:none; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; }
 </style>
 </head>
 <body>
@@ -209,28 +62,26 @@ button:hover{
   </div>
 
   <div class="productos">
-
     <div class="producto">
-      <img src="https://via.placeholder.com/300x300.png?text=Airpods+Pro+2" alt="Airpods Pro 2">
+      <img src="img/airpods-pro2.jpg" alt="Airpods Pro 2">
       <h3>Airpods Pro 2</h3>
       <p>$35.000</p>
       <button onclick="agregar('Airpods Pro 2',35000,this)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <img src="https://via.placeholder.com/300x300.png?text=Airpods+Maxx" alt="Airpods Maxx">
+      <img src="img/airpods-maxx.jpg" alt="Airpods Maxx">
       <h3>Airpods Maxx</h3>
       <p>$45.000</p>
       <button onclick="agregar('Airpods Maxx',45000,this)">Agregar al carrito</button>
     </div>
 
     <div class="producto">
-      <img src="https://via.placeholder.com/300x300.png?text=Cable+USB+C" alt="Cable USB C">
+      <img src="img/cable-usb-c.jpg" alt="Cable USB C">
       <h3>Cable USB C + Cabezal</h3>
       <p>$18.000</p>
       <button onclick="agregar('Cable USB C',18000,this)">Agregar al carrito</button>
     </div>
-
   </div>
 </div>
 
