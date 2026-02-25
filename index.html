@@ -2,11 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>iplugz - Accesorios Premium</title>
+<title>iplugz</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* RESET Y BODY */
 html, body {
   margin:0;
   padding:0;
@@ -36,7 +35,7 @@ header{
 #carritoIcono{
   cursor:pointer;
   position:relative;
-  font-size:24px;
+  font-size:20px;
 }
 
 #contador{
@@ -119,30 +118,135 @@ button:hover{
   background:#333;
 }
 
-/* OVERLAY */
-#overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.3);
-  display:none;
-  z-index:99;
-}
-
 /* CARRITO */
 #carrito{
   position:fixed;
   top:0;
-  right:0;
-  width:80%;
-  max-width:320px;
+  right:-320px;
+  width:300px;
   height:100%;
   background:white;
   box-shadow:-5px 0 15px rgba(0,0,0,0.1);
   padding:20px;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
+  transition:0.3s;
   overflow-y:auto;
-  z
+  z-index:20;
+}
+
+#carrito.abierto{
+  right:0;
+}
+
+.item{
+  border-bottom:1px solid #eee;
+  padding:10px 0;
+}
+
+.eliminar{
+  background:#e53935;
+  margin-top:5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">iplugz</div>
+  <div id="carritoIcono" onclick="abrirCarrito()">
+    🛒
+    <span id="contador">0</span>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Accesorios Premium</h1>
+  <p>Calidad • Precio • Confianza</p>
+</div>
+
+<div class="productos">
+
+  <div class="producto">
+    <img src="https://via.placeholder.com/300x300" alt="Airpods Pro 2">
+    <h3>Airpods Pro 2</h3>
+    <p>$35.000</p>
+    <button onclick="agregar('Airpods Pro 2',35000)">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <img src="https://via.placeholder.com/300x300" alt="Airpods Maxx">
+    <h3>Airpods Maxx</h3>
+    <p>$45.000</p>
+    <button onclick="agregar('Airpods Maxx',45000)">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <img src="https://via.placeholder.com/300x300" alt="Cable USB C">
+    <h3>Cable USB C + Cabezal</h3>
+    <p>$18.000</p>
+    <button onclick="agregar('Cable USB C',18000)">Agregar al carrito</button>
+  </div>
+
+</div>
+
+<div id="carrito">
+  <h3>Carrito</h3>
+  <div id="items"></div>
+  <h4 id="total">Total: $0</h4>
+  <button onclick="cerrarCarrito()">Cerrar</button>
+  <button onclick="vaciar()">Vaciar</button>
+</div>
+
+<script>
+var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function guardar(){ localStorage.setItem("carrito", JSON.stringify(carrito)); }
+
+function agregar(nombre,precio){
+  var encontrado=false;
+  for(var i=0;i<carrito.length;i++){
+    if(carrito[i].nombre===nombre){
+      carrito[i].cantidad++;
+      encontrado=true;
+    }
+  }
+  if(!encontrado){
+    carrito.push({nombre:nombre,precio:precio,cantidad:1});
+  }
+  guardar();
+  actualizar();
+}
+
+function actualizar(){
+  var itemsDiv=document.getElementById("items");
+  var total=0;
+  var contador=0;
+  itemsDiv.innerHTML="";
+  for(var i=0;i<carrito.length;i++){
+    total+=carrito[i].precio*carrito[i].cantidad;
+    contador+=carrito[i].cantidad;
+    itemsDiv.innerHTML+="<div class='item'>"+
+      carrito[i].nombre+"<br>$"+
+      carrito[i].precio+" x "+
+      carrito[i].cantidad+
+      "<br><button onclick='sumar("+i+")'>+</button>"+
+      "<button onclick='restar("+i+")'>-</button>"+
+      "<button class='eliminar' onclick='eliminar("+i+")'>Eliminar</button></div>";
+  }
+  document.getElementById("total").innerHTML="Total: $"+total;
+  document.getElementById("contador").innerHTML=contador;
+}
+
+function sumar(i){ carrito[i].cantidad++; guardar(); actualizar(); }
+function restar(i){ carrito[i].cantidad--; if(carrito[i].cantidad<=0){ carrito.splice(i,1); } guardar(); actualizar(); }
+function eliminar(i){ carrito.splice(i,1); guardar(); actualizar(); }
+function vaciar(){ carrito=[]; guardar(); actualizar(); }
+
+function abrirCarrito(){ document.getElementById("carrito").classList.add("abierto"); }
+function cerrarCarrito(){ document.getElementById("carrito").classList.remove("abierto"); }
+
+actualizar();
+</script>
+
+</body>
+</html>
