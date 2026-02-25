@@ -165,7 +165,7 @@ header {
     <div class="form-group"><label>Dirección</label><input type="text" id="f-dir" placeholder="Ej: Av. Rivadavia 1234"></div>
     <div class="form-group"><label>Teléfono</label><input type="tel" id="f-tel" placeholder="Ej: 11 2708 1095"></div>
     <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="Ej: juan@gmail.com"></div>
-    <button class="btn-agregar" onclick="finalizar()">Confirmar por WhatsApp</button>
+    <button class="btn-agregar" onclick="finalizar()" style="background:#25d366">Confirmar por WhatsApp</button>
   </div>
 </div>
 
@@ -206,12 +206,10 @@ function agregar(id) {
   const ex = carrito.find(x => x.id === id);
   if(ex) ex.qty++; else carrito.push({...p, qty:1});
   
-  // Feedback visual sin abrir el carrito
   const icon = document.getElementById("carritoIcono");
   icon.classList.remove("shake");
-  void icon.offsetWidth; // Trigger reflow para reiniciar animacion
+  void icon.offsetWidth;
   icon.classList.add("shake");
-
   actualizar();
 }
 
@@ -255,18 +253,34 @@ function finalizar() {
   const nom = document.getElementById("f-nom").value;
   const dir = document.getElementById("f-dir").value;
   const tel = document.getElementById("f-tel").value;
-  if(!nom || !dir || !tel) return alert("Completa los datos");
-
-  let msg = `*NUEVO PEDIDO iPlugz*\n\n`;
-  msg += `👤 Cliente: ${nom}\n📍 Dirección: ${dir}\n📞 Tel: ${tel}\n\n`;
-  let tot = 0;
-  carrito.forEach(x => {
-    msg += `• ${x.nombre} (x${x.qty})\n`;
-    tot += x.precio * x.qty;
-  });
-  msg += `\n*TOTAL: $${tot.toLocaleString()}*`;
   
-  window.open(`https://wa.me/5491127081095?text=${encodeURIComponent(msg)}`, '_blank');
+  if(!nom || !dir || !tel) {
+    alert("Por favor, completa los campos obligatorios");
+    return;
+  }
+
+  // Número sin espacios ni guiones
+  const numeroWsp = "5491127081095"; 
+  
+  let texto = "*NUEVO PEDIDO iPlugz* 🚀\n\n";
+  texto += `👤 *Cliente:* ${nom}\n`;
+  texto += `📍 *Dirección:* ${dir}\n`;
+  texto += `📞 *Teléfono:* ${tel}\n\n`;
+  texto += `📦 *Productos:*\n`;
+  
+  let totalPedido = 0;
+  carrito.forEach(prod => {
+    texto += `- ${prod.nombre} (x${prod.qty})\n`;
+    totalPedido += prod.precio * prod.qty;
+  });
+  
+  texto += `\n💰 *TOTAL: $${totalPedido.toLocaleString()}*`;
+
+  // Construir la URL final
+  const urlFinal = "https://wa.me/" + numeroWsp + "?text=" + encodeURIComponent(texto);
+  
+  // Abrir en nueva pestaña
+  window.open(urlFinal, '_blank');
 }
 
 function initParticles() {
