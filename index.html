@@ -5,80 +5,82 @@
 <title>iPlugz - Accesorios Premium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* RESET */
-html, body { margin:0; padding:0; box-sizing:border-box; font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif; background:#f5f5f7; color:#111; overflow-x:hidden; }
+html, body { margin:0; padding:0; font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif; background:#f5f5f7; color:#111; overflow-x:hidden; }
+
+/* CONTAINER GENERAL */
+.contenedor { max-width:1200px; margin:0 auto; padding:0 15px; }
 
 /* HEADER FIJO */
 header{
   position: fixed;
   top:0; left:0; width:100%;
-  background: linear-gradient(90deg, #111, #333);
-  padding:20px;
+  background: #111;
+  padding:15px 20px;
   display:flex; justify-content:space-between; align-items:center;
-  color:white;
-  z-index:1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  color:white; z-index:1000;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
-.logo{ font-size:24px; font-weight:700; letter-spacing:2px; }
+.logo{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:3px;
+  background: linear-gradient(90deg,#ff6a00,#ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
 #carritoIcono{ cursor:pointer; position:relative; font-size:26px; }
 #contador{ position:absolute; top:-8px; right:-10px; background:#e53935; color:white; border-radius:50%; padding:4px 7px; font-size:12px; font-weight:bold; transition: transform 0.3s ease; }
 
 /* ESPACIO PARA HEADER */
-body > .contenido{ padding-top:100px; }
+body > .contenido{ padding-top:90px; }
 
 /* HERO */
 .hero{
   text-align:center;
-  padding:80px 20px 40px;
+  padding:70px 20px 40px;
   background: linear-gradient(135deg, #ff6a00, #ee0979);
   color:white;
   border-radius:0 0 50% 50% / 0 0 5% 5%;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
 .hero h1{ font-size:32px; margin-bottom:10px; }
 .hero p{ font-size:18px; font-weight:500; }
 
 /* PRODUCTOS */
 .productos{
-  display:flex; flex-wrap:wrap; justify-content:center; gap:30px;
-  padding:40px 20px;
+  display:flex; flex-wrap:wrap; justify-content:center; gap:25px;
+  padding:40px 0;
 }
 .producto{
-  width:100%; max-width:280px; text-align:center;
-  background:white; border-radius:25px; padding:20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width:100%; max-width:250px; text-align:center;
+  background:white; border-radius:25px; padding:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .producto:hover{
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  box-shadow:0 15px 30px rgba(0,0,0,0.2);
 }
-.producto img{
-  width:100%; border-radius:20px; transition: transform 0.3s;
-  cursor:pointer;
-}
+.producto img{ width:100%; border-radius:20px; transition: transform 0.3s; cursor:pointer; }
 .producto img:hover{ transform: scale(1.05); }
-.producto h3{ margin:15px 0 5px; font-weight:600; color:#111; }
+.producto h3{ margin:10px 0 5px; font-weight:600; color:#111; }
 .producto p{ color:#666; font-weight:500; }
 
 /* BOTONES */
 button{
   background: linear-gradient(135deg, #ff6a00, #ee0979);
   color:white; border:none; padding:12px; width:100%;
-  border-radius:25px; margin-top:10px;
-  cursor:pointer; font-size:16px; font-weight:bold;
+  border-radius:25px; margin-top:10px; cursor:pointer; font-size:16px; font-weight:bold;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-button:hover{
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+button:hover{ transform: scale(1.05); box-shadow:0 5px 15px rgba(0,0,0,0.2); }
 
 /* CARRITO */
 #overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index:999; }
 #carrito{
-  position:fixed; top:0; right:0; width:80%; max-width:320px; height:100%;
-  background:white; box-shadow:-5px 0 25px rgba(0,0,0,0.2);
+  position:fixed; top:0; right:0; width:90%; max-width:350px; height:100%;
+  background:white; box-shadow:-5px 0 25px rgba(0,0,0,0.3);
   padding:20px; transform: translateX(100%);
   transition: transform 0.3s ease; overflow-y:auto; z-index:1000;
 }
@@ -93,12 +95,12 @@ button:hover{
 </head>
 
 <body>
-<header>
+<header class="contenedor">
   <div class="logo">iPlugz</div>
-  <div id="carritoIcono" onclick="abrirCarrito()">🛒<span id="contador">0</span></div>
+  <div id="carritoIcono">🛒<span id="contador">0</span></div>
 </header>
 
-<div class="contenido">
+<div class="contenido contenedor">
   <div class="hero">
     <h1>Accesorios Premium</h1>
     <p>Calidad • Precio • Confianza</p>
@@ -111,14 +113,12 @@ button:hover{
       <p>$35.000</p>
       <button onclick="agregar('Airpods Pro 2',35000,this)">Agregar al carrito</button>
     </div>
-
     <div class="producto">
       <a href="airpods-maxx.html"><img src="airpods-maxx.JPG" alt="Airpods Maxx"></a>
       <h3>Airpods Maxx</h3>
       <p>$45.000</p>
       <button onclick="agregar('Airpods Maxx',45000,this)">Agregar al carrito</button>
     </div>
-
     <div class="producto">
       <a href="cable-usb-c.html"><img src="cable-usb-c.JPG" alt="Cable USB C"></a>
       <h3>Cable USB C + Cabezal</h3>
@@ -140,6 +140,7 @@ button:hover{
 
 <script>
 var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+document.getElementById("carritoIcono").onclick = abrirCarrito;
 
 function guardar(){ localStorage.setItem("carrito", JSON.stringify(carrito)); }
 
@@ -207,14 +208,8 @@ function restar(i){ carrito[i].cantidad--; if(carrito[i].cantidad<=0){ carrito.s
 function eliminar(i){ carrito.splice(i,1); guardar(); actualizar(); }
 function vaciar(){ carrito=[]; guardar(); actualizar(); }
 
-function abrirCarrito(){
-  document.getElementById("carrito").classList.add("abierto");
-  document.getElementById("overlay").style.display="block";
-}
-function cerrarCarrito(){
-  document.getElementById("carrito").classList.remove("abierto");
-  document.getElementById("overlay").style.display="none";
-}
+function abrirCarrito(){ document.getElementById("carrito").classList.add("abierto"); document.getElementById("overlay").style.display="block"; }
+function cerrarCarrito(){ document.getElementById("carrito").classList.remove("abierto"); document.getElementById("overlay").style.display="none"; }
 
 actualizar();
 </script>
