@@ -3,65 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <title>iplugz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:#f2f2f2;
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  background:#ffffff;
+  color:#111;
 }
 
 header{
-  background:black;
-  color:white;
-  padding:15px;
+  padding:20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  border-bottom:1px solid #eee;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:600;
+  letter-spacing:1px;
 }
 
 #carritoIcono{
   cursor:pointer;
   position:relative;
+  font-size:20px;
 }
 
 #contador{
   position:absolute;
   top:-8px;
   right:-10px;
-  background:red;
+  background:#111;
   color:white;
   border-radius:50%;
-  padding:2px 6px;
+  padding:3px 6px;
   font-size:12px;
+}
+
+.hero{
+  text-align:center;
+  padding:60px 20px;
+}
+
+.hero h1{
+  font-size:28px;
+  font-weight:500;
 }
 
 .productos{
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
-  gap:15px;
-  padding:20px;
+  gap:40px;
+  padding:40px 20px;
 }
 
 .producto{
-  background:white;
-  padding:15px;
-  width:200px;
-  border-radius:8px;
+  width:260px;
   text-align:center;
-  box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+.producto img{
+  width:100%;
+  border-radius:20px;
+  transition:0.3s;
+}
+
+.producto img:hover{
+  transform:scale(1.05);
+}
+
+.producto h3{
+  margin:15px 0 5px;
+  font-weight:500;
+}
+
+.producto p{
+  color:#666;
 }
 
 button{
-  background:black;
+  background:#111;
   color:white;
   border:none;
-  padding:8px;
-  margin-top:10px;
+  padding:10px;
   width:100%;
-  border-radius:4px;
+  border-radius:20px;
+  margin-top:10px;
   cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#333;
 }
 
 #carrito{
@@ -71,19 +109,19 @@ button{
   width:300px;
   height:100%;
   background:white;
-  box-shadow:-5px 0 10px rgba(0,0,0,0.2);
-  padding:15px;
+  box-shadow:-5px 0 15px rgba(0,0,0,0.1);
+  padding:20px;
   transition:0.3s;
   overflow-y:auto;
 }
 
 .item{
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid #eee;
   padding:10px 0;
 }
 
 .eliminar{
-  background:red;
+  background:#e53935;
   margin-top:5px;
 }
 </style>
@@ -92,31 +130,39 @@ button{
 <body>
 
 <header>
-  <h2>iplugz</h2>
+  <div class="logo">iplugz</div>
   <div id="carritoIcono" onclick="abrirCarrito()">
     🛒
     <span id="contador">0</span>
   </div>
 </header>
 
+<div class="hero">
+  <h1>Accesorios Premium</h1>
+  <p>Calidad • Precio • Confianza</p>
+</div>
+
 <div class="productos">
 
   <div class="producto">
+    <img src="https://via.placeholder.com/300x300" alt="">
     <h3>Airpods Pro 2</h3>
     <p>$35.000</p>
-    <button onclick="agregar('Airpods Pro 2',35000)">Agregar</button>
+    <button onclick="agregar('Airpods Pro 2',35000)">Agregar al carrito</button>
   </div>
 
   <div class="producto">
+    <img src="https://via.placeholder.com/300x300" alt="">
     <h3>Airpods Maxx</h3>
     <p>$45.000</p>
-    <button onclick="agregar('Airpods Maxx',45000)">Agregar</button>
+    <button onclick="agregar('Airpods Maxx',45000)">Agregar al carrito</button>
   </div>
 
   <div class="producto">
+    <img src="https://via.placeholder.com/300x300" alt="">
     <h3>Cable USB C + Cabezal</h3>
     <p>$18.000</p>
-    <button onclick="agregar('Cable USB C',18000)">Agregar</button>
+    <button onclick="agregar('Cable USB C',18000)">Agregar al carrito</button>
   </div>
 
 </div>
@@ -137,11 +183,11 @@ function guardar(){
 }
 
 function agregar(nombre,precio){
-  var encontrado = false;
+  var encontrado=false;
   for(var i=0;i<carrito.length;i++){
-    if(carrito[i].nombre === nombre){
+    if(carrito[i].nombre===nombre){
       carrito[i].cantidad++;
-      encontrado = true;
+      encontrado=true;
     }
   }
   if(!encontrado){
@@ -152,64 +198,31 @@ function agregar(nombre,precio){
 }
 
 function actualizar(){
-  var itemsDiv = document.getElementById("items");
-  var total = 0;
-  var contador = 0;
-  itemsDiv.innerHTML = "";
-
+  var itemsDiv=document.getElementById("items");
+  var total=0;
+  var contador=0;
+  itemsDiv.innerHTML="";
   for(var i=0;i<carrito.length;i++){
-    total += carrito[i].precio * carrito[i].cantidad;
-    contador += carrito[i].cantidad;
-
-    itemsDiv.innerHTML += 
-    "<div class='item'>" +
-    carrito[i].nombre + "<br>" +
-    "$" + carrito[i].precio + " x " + carrito[i].cantidad +
-    "<br><button onclick=\"sumar("+i+")\">+</button>" +
-    "<button onclick=\"restar("+i+")\">-</button>" +
-    "<button class='eliminar' onclick=\"eliminar("+i+")\">Eliminar</button>" +
-    "</div>";
+    total+=carrito[i].precio*carrito[i].cantidad;
+    contador+=carrito[i].cantidad;
+    itemsDiv.innerHTML+="<div class='item'>"+
+    carrito[i].nombre+"<br>$"+
+    carrito[i].precio+" x "+
+    carrito[i].cantidad+
+    "<br><button onclick='sumar("+i+")'>+</button>"+
+    "<button onclick='restar("+i+")'>-</button>"+
+    "<button class='eliminar' onclick='eliminar("+i+")'>Eliminar</button></div>";
   }
-
-  document.getElementById("total").innerHTML = "Total: $" + total;
-  document.getElementById("contador").innerHTML = contador;
+  document.getElementById("total").innerHTML="Total: $"+total;
+  document.getElementById("contador").innerHTML=contador;
 }
 
-function sumar(i){
-  carrito[i].cantidad++;
-  guardar();
-  actualizar();
-}
-
-function restar(i){
-  carrito[i].cantidad--;
-  if(carrito[i].cantidad <= 0){
-    carrito.splice(i,1);
-  }
-  guardar();
-  actualizar();
-}
-
-function eliminar(i){
-  carrito.splice(i,1);
-  guardar();
-  actualizar();
-}
-
-function vaciar(){
-  carrito = [];
-  guardar();
-  actualizar();
-}
-
-function abrirCarrito(){
-  document.getElementById("carrito").style.right = "0";
-}
-
-function cerrarCarrito(){
-  document.getElementById("carrito").style.right = "-320px";
-}
-
+function sumar(i){carrito[i].cantidad++;guardar();actualizar();}
+function restar(i){carrito[i].cantidad--;if(carrito[i].cantidad<=0){carrito.splice(i,1);}guardar();actualizar();}
+function eliminar(i){carrito.splice(i,1);guardar();actualizar();}
+function vaciar(){carrito=[];guardar();actualizar();}
+function abrirCarrito(){document.getElementById("carrito").style.right="0";}
+function cerrarCarrito(){document.getElementById("carrito").style.right="-320px";}
 actualizar();
 </script>
 
