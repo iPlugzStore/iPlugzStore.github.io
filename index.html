@@ -2,9 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>iplugz</title>
+<title>iplugz - Accesorios Premium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 html, body {
   margin:0;
@@ -35,7 +34,7 @@ header{
 #carritoIcono{
   cursor:pointer;
   position:relative;
-  font-size:20px;
+  font-size:24px;
 }
 
 #contador{
@@ -47,6 +46,7 @@ header{
   border-radius:50%;
   padding:3px 6px;
   font-size:12px;
+  transition: transform 0.3s ease;
 }
 
 /* HERO */
@@ -80,6 +80,7 @@ header{
   max-width:260px;
   text-align:center;
   box-sizing:border-box;
+  position:relative;
 }
 
 .producto img{
@@ -118,23 +119,37 @@ button:hover{
   background:#333;
 }
 
+/* OVERLAY */
+#overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.3);
+  display:none;
+  z-index:99;
+}
+
 /* CARRITO */
 #carrito{
   position:fixed;
   top:0;
-  right:-320px;
-  width:300px;
+  right:0;
+  width:80%;
+  max-width:320px;
   height:100%;
   background:white;
   box-shadow:-5px 0 15px rgba(0,0,0,0.1);
   padding:20px;
-  transition:0.3s;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
   overflow-y:auto;
-  z-index:20;
+  z-index:100;
 }
 
 #carrito.abierto{
-  right:0;
+  transform: translateX(0);
 }
 
 .item{
@@ -142,13 +157,31 @@ button:hover{
   padding:10px 0;
 }
 
+.item button{
+  width:30px;
+  height:30px;
+  font-size:16px;
+  margin-right:5px;
+}
+
 .eliminar{
   background:#e53935;
+  width:100%;
   margin-top:5px;
+}
+
+/* ANIMACIÓN FLY */
+.flyImg{
+  position:absolute;
+  width:100px;
+  height:100px;
+  border-radius:20px;
+  z-index:1000;
+  pointer-events:none;
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -170,24 +203,26 @@ button:hover{
     <img src="https://via.placeholder.com/300x300.png?text=Airpods+Pro+2" alt="Airpods Pro 2">
     <h3>Airpods Pro 2</h3>
     <p>$35.000</p>
-    <button onclick="agregar('Airpods Pro 2',35000)">Agregar al carrito</button>
+    <button onclick="agregar('Airpods Pro 2',35000, this)">Agregar al carrito</button>
   </div>
 
   <div class="producto">
     <img src="https://via.placeholder.com/300x300.png?text=Airpods+Maxx" alt="Airpods Maxx">
     <h3>Airpods Maxx</h3>
     <p>$45.000</p>
-    <button onclick="agregar('Airpods Maxx',45000)">Agregar al carrito</button>
+    <button onclick="agregar('Airpods Maxx',45000, this)">Agregar al carrito</button>
   </div>
 
   <div class="producto">
     <img src="https://via.placeholder.com/300x300.png?text=Cable+USB+C" alt="Cable USB C">
     <h3>Cable USB C + Cabezal</h3>
     <p>$18.000</p>
-    <button onclick="agregar('Cable USB C',18000)">Agregar al carrito</button>
+    <button onclick="agregar('Cable USB C',18000, this)">Agregar al carrito</button>
   </div>
 
 </div>
+
+<div id="overlay" onclick="cerrarCarrito()"></div>
 
 <div id="carrito">
   <h3>Carrito</h3>
@@ -202,8 +237,56 @@ var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 function guardar(){ localStorage.setItem("carrito", JSON.stringify(carrito)); }
 
-function agregar(nombre,precio){
-  var encontrado=false;
+function actualizar(){
+  var itemsDiv = document.getElementById("items");
+  var total = 0;
+  var contador = 0;
+  itemsDiv.innerHTML = "";
+  for(var i=0;i<carrito.length;i++){
+    total += carrito[i].precio*carrito[i].cantidad;
+    contador += carrito[i].cantidad;
+    itemsDiv.innerHTML += "<div class='item'>"+
+      carrito[i].nombre+"<br>$"+
+      carrito[i].precio+" x "+
+      carrito[i].cantidad+
+      "<br><button onclick='sumar("+i+")'>+</button>"+
+      "<button onclick='restar("+i+")'>-</button>"+
+      "<button class='eliminar' onclick='eliminar("+i+")'>Eliminar</button></div>";
+  }
+  document.getElementById("total").innerHTML = "Total: $" + total;
+  // Contador con salto
+  let counter = document.getElementById("contador");
+  counter.innerHTML = contador;
+  counter.style.transform = "scale(1.5)";
+  setTimeout(()=>{ counter.style.transform = "scale(1)"; },300);
+}
+
+function agregar(nombre, precio, btn){
+  // Animación Fly
+  let img = btn.parentElement.querySelector("img");
+  let fly = img.cloneNode(true);
+  let rect = img.getBoundingClientRect();
+  fly.style.position = "fixed";
+  fly.style.left = rect.left + "px";
+  fly.style.top = rect.top + "px";
+  fly.style.width = rect.width + "px";
+  fly.style.height = rect.height + "px";
+  fly.style.transition = "all 0.8s ease-in-out";
+  fly.classList.add("flyImg");
+  document.body.appendChild(fly);
+  let cartIcon = document.getElementById("carritoIcono");
+  let cartRect = cartIcon.getBoundingClientRect();
+  setTimeout(()=>{
+    fly.style.left = cartRect.left + "px";
+    fly.style.top = cartRect.top + "px";
+    fly.style.width = "20px";
+    fly.style.height = "20px";
+    fly.style.opacity = 0;
+  },10);
+  setTimeout(()=>{ document.body.removeChild(fly); },800);
+
+  // Agregar al carrito
+  let encontrado=false;
   for(var i=0;i<carrito.length;i++){
     if(carrito[i].nombre===nombre){
       carrito[i].cantidad++;
@@ -217,36 +300,21 @@ function agregar(nombre,precio){
   actualizar();
 }
 
-function actualizar(){
-  var itemsDiv=document.getElementById("items");
-  var total=0;
-  var contador=0;
-  itemsDiv.innerHTML="";
-  for(var i=0;i<carrito.length;i++){
-    total+=carrito[i].precio*carrito[i].cantidad;
-    contador+=carrito[i].cantidad;
-    itemsDiv.innerHTML+="<div class='item'>"+
-      carrito[i].nombre+"<br>$"+
-      carrito[i].precio+" x "+
-      carrito[i].cantidad+
-      "<br><button onclick='sumar("+i+")'>+</button>"+
-      "<button onclick='restar("+i+")'>-</button>"+
-      "<button class='eliminar' onclick='eliminar("+i+")'>Eliminar</button></div>";
-  }
-  document.getElementById("total").innerHTML="Total: $"+total;
-  document.getElementById("contador").innerHTML=contador;
-}
-
 function sumar(i){ carrito[i].cantidad++; guardar(); actualizar(); }
 function restar(i){ carrito[i].cantidad--; if(carrito[i].cantidad<=0){ carrito.splice(i,1); } guardar(); actualizar(); }
 function eliminar(i){ carrito.splice(i,1); guardar(); actualizar(); }
 function vaciar(){ carrito=[]; guardar(); actualizar(); }
 
-function abrirCarrito(){ document.getElementById("carrito").classList.add("abierto"); }
-function cerrarCarrito(){ document.getElementById("carrito").classList.remove("abierto"); }
+function abrirCarrito(){
+  document.getElementById("carrito").classList.add("abierto");
+  document.getElementById("overlay").style.display="block";
+}
+function cerrarCarrito(){
+  document.getElementById("carrito").classList.remove("abierto");
+  document.getElementById("overlay").style.display="none";
+}
 
 actualizar();
 </script>
-
 </body>
 </html>
