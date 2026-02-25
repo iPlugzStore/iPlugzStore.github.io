@@ -2,42 +2,88 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>iplugz - Accesorios Premium</title>
+<title>iPlugz - Accesorios Premium</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-html, body { margin:0; padding:0; overflow-x:hidden; font-family:-apple-system, BlinkMacSystemFont, sans-serif; background:#fff; color:#111; }
+/* RESET */
+html, body { margin:0; padding:0; box-sizing:border-box; font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif; background:#f5f5f7; color:#111; overflow-x:hidden; }
 
 /* HEADER FIJO */
-header{ position: fixed; top:0; left:0; width:100%; background:white; padding:20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; z-index:1000; box-sizing:border-box; }
-.logo{ font-size:22px; font-weight:600; letter-spacing:1px; }
-#carritoIcono{ cursor:pointer; position:relative; font-size:24px; }
-#contador{ position:absolute; top:-8px; right:-10px; background:#111; color:white; border-radius:50%; padding:3px 6px; font-size:12px; transition: transform 0.3s ease; }
+header{
+  position: fixed;
+  top:0; left:0; width:100%;
+  background: linear-gradient(90deg, #111, #333);
+  padding:20px;
+  display:flex; justify-content:space-between; align-items:center;
+  color:white;
+  z-index:1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.logo{ font-size:24px; font-weight:700; letter-spacing:2px; }
+#carritoIcono{ cursor:pointer; position:relative; font-size:26px; }
+#contador{ position:absolute; top:-8px; right:-10px; background:#e53935; color:white; border-radius:50%; padding:4px 7px; font-size:12px; font-weight:bold; transition: transform 0.3s ease; }
 
 /* ESPACIO PARA HEADER */
-body > .contenido{ padding-top:80px; }
+body > .contenido{ padding-top:100px; }
 
 /* HERO */
-.hero{ text-align:center; padding:60px 20px; }
-.hero h1{ font-size:24px; font-weight:500; }
-.hero p{ color:#666; margin-top:10px; }
+.hero{
+  text-align:center;
+  padding:80px 20px 40px;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color:white;
+  border-radius:0 0 50% 50% / 0 0 5% 5%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+.hero h1{ font-size:32px; margin-bottom:10px; }
+.hero p{ font-size:18px; font-weight:500; }
 
 /* PRODUCTOS */
-.productos{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; box-sizing:border-box; }
-.producto{ width:100%; max-width:260px; text-align:center; box-sizing:border-box; position:relative; }
-.producto img{ width:100%; border-radius:20px; transition:0.3s; cursor:pointer; }
-.producto img:hover{ transform:scale(1.05); }
-.producto h3{ margin:15px 0 5px; font-weight:500; }
-.producto p{ color:#666; }
-button{ background:#111; color:white; border:none; padding:12px; width:100%; border-radius:20px; margin-top:10px; cursor:pointer; transition:0.3s; font-size:16px; }
-button:hover{ background:#333; }
+.productos{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:30px;
+  padding:40px 20px;
+}
+.producto{
+  width:100%; max-width:280px; text-align:center;
+  background:white; border-radius:25px; padding:20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.producto:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+.producto img{
+  width:100%; border-radius:20px; transition: transform 0.3s;
+  cursor:pointer;
+}
+.producto img:hover{ transform: scale(1.05); }
+.producto h3{ margin:15px 0 5px; font-weight:600; color:#111; }
+.producto p{ color:#666; font-weight:500; }
 
-/* OVERLAY */
-#overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index:999; }
+/* BOTONES */
+button{
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color:white; border:none; padding:12px; width:100%;
+  border-radius:25px; margin-top:10px;
+  cursor:pointer; font-size:16px; font-weight:bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover{
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
 
 /* CARRITO */
-#carrito{ position:fixed; top:0; right:0; width:80%; max-width:320px; height:100%; background:white; box-shadow:-5px 0 15px rgba(0,0,0,0.1); padding:20px; transform: translateX(100%); transition: transform 0.3s ease; overflow-y:auto; z-index:1000; }
+#overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index:999; }
+#carrito{
+  position:fixed; top:0; right:0; width:80%; max-width:320px; height:100%;
+  background:white; box-shadow:-5px 0 25px rgba(0,0,0,0.2);
+  padding:20px; transform: translateX(100%);
+  transition: transform 0.3s ease; overflow-y:auto; z-index:1000;
+}
 #carrito.abierto{ transform: translateX(0); }
-.item{ border-bottom:1px solid #eee; padding:10px 0; }
+.item{ border-bottom:1px solid #eee; padding:10px 0; font-weight:500; }
 .item button{ width:30px; height:30px; font-size:16px; margin-right:5px; }
 .eliminar{ background:#e53935; width:100%; margin-top:5px; }
 
@@ -45,14 +91,11 @@ button:hover{ background:#333; }
 .flyImg{ position:absolute; width:100px; height:100px; border-radius:20px; z-index:10000; pointer-events:none; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; }
 </style>
 </head>
-<body>
 
+<body>
 <header>
-  <div class="logo">iplugz</div>
-  <div id="carritoIcono" onclick="abrirCarrito()">
-    🛒
-    <span id="contador">0</span>
-  </div>
+  <div class="logo">iPlugz</div>
+  <div id="carritoIcono" onclick="abrirCarrito()">🛒<span id="contador">0</span></div>
 </header>
 
 <div class="contenido">
@@ -62,37 +105,26 @@ button:hover{ background:#333; }
   </div>
 
   <div class="productos">
-
-    <!-- Airpods Pro 2 -->
     <div class="producto">
-      <a href="airpods-pro2.html">
-        <img src="airpods-pro2.JPG" alt="Airpods Pro 2">
-      </a>
+      <a href="airpods-pro2.html"><img src="airpods-pro2.JPG" alt="Airpods Pro 2"></a>
       <h3>Airpods Pro 2</h3>
       <p>$35.000</p>
       <button onclick="agregar('Airpods Pro 2',35000,this)">Agregar al carrito</button>
     </div>
 
-    <!-- Airpods Maxx -->
     <div class="producto">
-      <a href="airpods-maxx.html">
-        <img src="airpods-maxx.JPG" alt="Airpods Maxx">
-      </a>
+      <a href="airpods-maxx.html"><img src="airpods-maxx.JPG" alt="Airpods Maxx"></a>
       <h3>Airpods Maxx</h3>
       <p>$45.000</p>
       <button onclick="agregar('Airpods Maxx',45000,this)">Agregar al carrito</button>
     </div>
 
-    <!-- Cable USB C + Cabezal -->
     <div class="producto">
-      <a href="cable-usb-c.html">
-        <img src="cable-usb-c.JPG" alt="Cable USB C">
-      </a>
+      <a href="cable-usb-c.html"><img src="cable-usb-c.JPG" alt="Cable USB C"></a>
       <h3>Cable USB C + Cabezal</h3>
       <p>$18.000</p>
       <button onclick="agregar('Cable USB C',18000,this)">Agregar al carrito</button>
     </div>
-
   </div>
 </div>
 
@@ -143,7 +175,6 @@ function agregar(nombre, precio, btn){
   fly.style.top = rect.top + "px";
   fly.style.width = rect.width + "px";
   fly.style.height = rect.height + "px";
-  fly.style.transition = "all 0.8s ease-in-out";
   fly.classList.add("flyImg");
   document.body.appendChild(fly);
   let cartIcon = document.getElementById("carritoIcono");
