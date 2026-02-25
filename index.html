@@ -10,19 +10,21 @@ html, body {
   padding:0;
   overflow-x:hidden;
   font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-  background:#ffffff;
+  background:#fff;
   color:#111;
 }
 
-/* HEADER */
+/* HEADER STICKY */
 header{
+  position: sticky;
+  top:0;
+  background:white;
   padding:20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   border-bottom:1px solid #eee;
-  position:relative;
-  z-index:10;
+  z-index:1000;
 }
 
 .logo{
@@ -128,7 +130,7 @@ button:hover{
   height:100%;
   background:rgba(0,0,0,0.3);
   display:none;
-  z-index:99;
+  z-index:999;
 }
 
 /* CARRITO */
@@ -145,7 +147,7 @@ button:hover{
   transform: translateX(100%);
   transition: transform 0.3s ease;
   overflow-y:auto;
-  z-index:100;
+  z-index:1000;
 }
 
 #carrito.abierto{
@@ -170,13 +172,13 @@ button:hover{
   margin-top:5px;
 }
 
-/* ANIMACIÓN FLY */
+/* FLY ANIMATION */
 .flyImg{
   position:absolute;
   width:100px;
   height:100px;
   border-radius:20px;
-  z-index:1000;
+  z-index:10000;
   pointer-events:none;
   transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
 }
@@ -203,21 +205,21 @@ button:hover{
     <img src="https://via.placeholder.com/300x300.png?text=Airpods+Pro+2" alt="Airpods Pro 2">
     <h3>Airpods Pro 2</h3>
     <p>$35.000</p>
-    <button onclick="agregar('Airpods Pro 2',35000, this)">Agregar al carrito</button>
+    <button onclick="agregar('Airpods Pro 2',35000,this)">Agregar al carrito</button>
   </div>
 
   <div class="producto">
     <img src="https://via.placeholder.com/300x300.png?text=Airpods+Maxx" alt="Airpods Maxx">
     <h3>Airpods Maxx</h3>
     <p>$45.000</p>
-    <button onclick="agregar('Airpods Maxx',45000, this)">Agregar al carrito</button>
+    <button onclick="agregar('Airpods Maxx',45000,this)">Agregar al carrito</button>
   </div>
 
   <div class="producto">
     <img src="https://via.placeholder.com/300x300.png?text=Cable+USB+C" alt="Cable USB C">
     <h3>Cable USB C + Cabezal</h3>
     <p>$18.000</p>
-    <button onclick="agregar('Cable USB C',18000, this)">Agregar al carrito</button>
+    <button onclick="agregar('Cable USB C',18000,this)">Agregar al carrito</button>
   </div>
 
 </div>
@@ -238,11 +240,11 @@ var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 function guardar(){ localStorage.setItem("carrito", JSON.stringify(carrito)); }
 
 function actualizar(){
-  var itemsDiv = document.getElementById("items");
-  var total = 0;
-  var contador = 0;
+  let itemsDiv = document.getElementById("items");
+  let total = 0;
+  let contador = 0;
   itemsDiv.innerHTML = "";
-  for(var i=0;i<carrito.length;i++){
+  for(let i=0;i<carrito.length;i++){
     total += carrito[i].precio*carrito[i].cantidad;
     contador += carrito[i].cantidad;
     itemsDiv.innerHTML += "<div class='item'>"+
@@ -254,7 +256,6 @@ function actualizar(){
       "<button class='eliminar' onclick='eliminar("+i+")'>Eliminar</button></div>";
   }
   document.getElementById("total").innerHTML = "Total: $" + total;
-  // Contador con salto
   let counter = document.getElementById("contador");
   counter.innerHTML = contador;
   counter.style.transform = "scale(1.5)";
@@ -287,7 +288,7 @@ function agregar(nombre, precio, btn){
 
   // Agregar al carrito
   let encontrado=false;
-  for(var i=0;i<carrito.length;i++){
+  for(let i=0;i<carrito.length;i++){
     if(carrito[i].nombre===nombre){
       carrito[i].cantidad++;
       encontrado=true;
