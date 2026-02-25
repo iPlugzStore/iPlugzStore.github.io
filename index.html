@@ -14,13 +14,12 @@ a { text-decoration:none; color:inherit; }
 header {
   position: fixed; top:0; left:0; width:100%;
   background: #111; padding:16px 20px; display:flex; justify-content:space-between; align-items:center;
-  color:white; z-index:1000; box-shadow:0 5px 15px rgba(0,0,0,0.2); transition: background 0.3s;
+  color:white; z-index:1000; box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 .logo {
   font-size:32px; font-weight:900; text-transform:uppercase;
   background: linear-gradient(90deg,#4A90E2,#50E3C2);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  transition: background 0.3s;
 }
 #carritoIcono { font-size:26px; position:relative; cursor:pointer; }
 #contador { position:absolute; top:-6px; right:-10px; background:#50E3C2; color:white; padding:3px 7px; border-radius:50%; font-size:12px; font-weight:bold; transition: transform 0.3s ease; }
@@ -28,14 +27,13 @@ header {
 /* ESPACIO HEADER */
 body > .contenido { padding-top:100px; }
 
-/* HERO CON PARALLAX Y DEGRADADO ANIMADO */
+/* HERO */
 .hero {
   text-align:center; padding:120px 20px; border-radius:0 0 30% 30% / 0 0 10% 10%; margin-bottom:40px; color:white;
   background: linear-gradient(135deg,#4A90E2,#50E3C2);
   background-size: 400% 400%;
   animation: gradientBG 12s ease infinite;
   box-shadow:0 5px 25px rgba(0,0,0,0.15);
-  position:relative; overflow:hidden;
 }
 @keyframes gradientBG {
   0%{background-position:0% 50%;}
@@ -72,7 +70,7 @@ button:hover { background:#417D9C; transform: scale(1.05); box-shadow:0 5px 15px
 /* CARRITO */
 #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index:999; }
 #carrito {
-  position:fixed; top:0; right:0; width:85%; max-width:280px; height:100%;
+  position:fixed; top:0; right:0; width:280px; max-width:90vw; height:100%;
   background:white; box-shadow:-5px 0 25px rgba(0,0,0,0.3); padding:20px;
   transform: translateX(100%); transition: transform 0.3s ease; overflow-y:auto; z-index:1000;
 }
@@ -81,7 +79,7 @@ button:hover { background:#417D9C; transform: scale(1.05); box-shadow:0 5px 15px
 .item button { width:30px; height:30px; font-size:16px; margin-right:5px; }
 .eliminar { background:#417D9C; width:100%; margin-top:5px; color:white; }
 
-/* BOTON FLOTANTE CARRITO */
+/* BOTON FLOTANTE */
 #btnFlotante {
   position:fixed; bottom:30px; right:20px; background:#50E3C2; color:#fff; border:none;
   padding:14px 18px; border-radius:50px; font-size:18px; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2); transition: transform 0.2s, background 0.3s; z-index:1001;
@@ -96,6 +94,11 @@ footer { background:#111; color:white; text-align:center; padding:30px 20px; }
 footer a { color:#50E3C2; margin:0 10px; transition: color 0.3s; }
 footer a:hover { color:#417D9C; }
 
+/* MEDIA QUERY */
+@media (max-width:500px){
+  #carrito { width:90vw; }
+  #btnFlotante { right:15px; bottom:25px; }
+}
 </style>
 </head>
 <body>
@@ -140,7 +143,7 @@ var productos = document.querySelectorAll('.producto');
 document.getElementById("carritoIcono").onclick = abrirCarrito;
 document.getElementById("btnFlotante").onclick = abrirCarrito;
 
-// Animación aparición productos al scrollear
+// Animación aparición productos
 function checkVisible() {
   let triggerBottom = window.innerHeight * 0.85;
   productos.forEach(p=>{
