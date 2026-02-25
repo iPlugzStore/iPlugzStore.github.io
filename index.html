@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>iplugz</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f2f2f2;
+}
+
+header{
+  background:black;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+#carritoIcono{
+  cursor:pointer;
+  position:relative;
+}
+
+#contador{
+  position:absolute;
+  top:-8px;
+  right:-10px;
+  background:red;
+  color:white;
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+}
+
+.productos{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  padding:20px;
+}
+
+.producto{
+  background:white;
+  padding:15px;
+  width:200px;
+  border-radius:8px;
+  text-align:center;
+  box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+button{
+  background:black;
+  color:white;
+  border:none;
+  padding:8px;
+  margin-top:10px;
+  width:100%;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+#carrito{
+  position:fixed;
+  top:0;
+  right:-320px;
+  width:300px;
+  height:100%;
+  background:white;
+  box-shadow:-5px 0 10px rgba(0,0,0,0.2);
+  padding:15px;
+  transition:0.3s;
+  overflow-y:auto;
+}
+
+.item{
+  border-bottom:1px solid #ddd;
+  padding:10px 0;
+}
+
+.eliminar{
+  background:red;
+  margin-top:5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>iplugz</h2>
+  <div id="carritoIcono" onclick="abrirCarrito()">
+    🛒
+    <span id="contador">0</span>
+  </div>
+</header>
+
+<div class="productos">
+
+  <div class="producto">
+    <h3>Airpods Pro 2</h3>
+    <p>$35.000</p>
+    <button onclick="agregar('Airpods Pro 2',35000)">Agregar</button>
+  </div>
+
+  <div class="producto">
+    <h3>Airpods Maxx</h3>
+    <p>$45.000</p>
+    <button onclick="agregar('Airpods Maxx',45000)">Agregar</button>
+  </div>
+
+  <div class="producto">
+    <h3>Cable USB C + Cabezal</h3>
+    <p>$18.000</p>
+    <button onclick="agregar('Cable USB C',18000)">Agregar</button>
+  </div>
+
+</div>
+
+<div id="carrito">
+  <h3>Carrito</h3>
+  <div id="items"></div>
+  <h4 id="total">Total: $0</h4>
+  <button onclick="cerrarCarrito()">Cerrar</button>
+  <button onclick="vaciar()">Vaciar</button>
+</div>
+
+<script>
+var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function guardar(){
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function agregar(nombre,precio){
+  var encontrado = false;
+  for(var i=0;i<carrito.length;i++){
+    if(carrito[i].nombre === nombre){
+      carrito[i].cantidad++;
+      encontrado = true;
+    }
+  }
+  if(!encontrado){
+    carrito.push({nombre:nombre,precio:precio,cantidad:1});
+  }
+  guardar();
+  actualizar();
+}
+
+function actualizar(){
+  var itemsDiv = document.getElementById("items");
+  var total = 0;
+  var contador = 0;
+  itemsDiv.innerHTML = "";
+
+  for(var i=0;i<carrito.length;i++){
+    total += carrito[i].precio * carrito[i].cantidad;
+    contador += carrito[i].cantidad;
+
+    itemsDiv.innerHTML += 
+    "<div class='item'>" +
+    carrito[i].nombre + "<br>" +
+    "$" + carrito[i].precio + " x " + carrito[i].cantidad +
+    "<br><button onclick=\"sumar("+i+")\">+</button>" +
+    "<button onclick=\"restar("+i+")\">-</button>" +
+    "<button class='eliminar' onclick=\"eliminar("+i+")\">Eliminar</button>" +
+    "</div>";
+  }
+
+  document.getElementById("total").innerHTML = "Total: $" + total;
+  document.getElementById("contador").innerHTML = contador;
+}
+
+function sumar(i){
+  carrito[i].cantidad++;
+  guardar();
+  actualizar();
+}
+
+function restar(i){
+  carrito[i].cantidad--;
+  if(carrito[i].cantidad <= 0){
+    carrito.splice(i,1);
+  }
+  guardar();
+  actualizar();
+}
+
+function eliminar(i){
+  carrito.splice(i,1);
+  guardar();
+  actualizar();
+}
+
+function vaciar(){
+  carrito = [];
+  guardar();
+  actualizar();
+}
+
+function abrirCarrito(){
+  document.getElementById("carrito").style.right = "0";
+}
+
+function cerrarCarrito(){
+  document.getElementById("carrito").style.right = "-320px";
+}
+
+actualizar();
+</script>
+
+</body>
+</html>
