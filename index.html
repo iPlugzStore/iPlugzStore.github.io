@@ -37,7 +37,7 @@
 
         .contenedor { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- HEADER PROFESIONAL --- */
+        /* HEADER */
         header {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
             background: var(--header-blur); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -56,7 +56,6 @@
             background: none; border: none; font-size: 24px; cursor: pointer; 
             color: var(--text); transition: transform 0.2s; padding: 5px;
         }
-        .icon-btn:active { transform: scale(0.9); }
 
         .logo {
             font-size: 22px; font-weight: 900; text-transform: uppercase;
@@ -71,7 +70,7 @@
             font-weight: bold; border: 2px solid var(--bg);
         }
 
-        /* --- BUSCADOR --- */
+        /* BUSCADOR */
         #searchBox {
             position: absolute; top: 70px; left: 0; width: 100%;
             background: var(--card); padding: 15px;
@@ -83,9 +82,9 @@
             background: var(--bg); color: var(--text); font-size: 16px;
         }
 
-        /* --- HERO & PARTICLES --- */
+        /* HERO & PARTICLES */
         .hero {
-            position: relative; height: 450px; display: flex; align-items: center;
+            position: relative; height: 400px; display: flex; align-items: center;
             justify-content: center; text-align: center; color: white;
             background: var(--gradient); overflow: hidden; margin-bottom: 40px;
             border-radius: 0 0 50px 50px;
@@ -95,7 +94,7 @@
         .hero h1 { font-size: 42px; margin: 0; font-weight: 800; }
         .hero p { font-size: 18px; opacity: 0.9; margin-top: 10px; }
 
-        /* --- PRODUCTOS & SKELETON --- */
+        /* PRODUCTOS & SKELETON */
         .grid-productos {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px; padding-bottom: 100px;
@@ -107,10 +106,9 @@
             display: flex; flex-direction: column;
         }
         .card:hover { transform: translateY(-10px); }
-
         .card img { width: 100%; height: 280px; object-fit: cover; }
         .card-body { padding: 20px; text-align: center; }
-        .card h3 { margin: 0; font-size: 20px; }
+        .card h3 { margin: 0; font-size: 20px; color: var(--text); }
         .card .precio { color: var(--blue); font-weight: bold; font-size: 22px; margin: 10px 0; }
 
         .btn-add {
@@ -119,10 +117,7 @@
             font-size: 16px; cursor: pointer; transition: opacity 0.3s;
         }
 
-        /* SKELETON ANIMATION */
-        .skeleton {
-            background: #eee; position: relative; overflow: hidden;
-        }
+        .skeleton { background: #eee; position: relative; overflow: hidden; }
         .skeleton::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
@@ -131,12 +126,12 @@
         @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
         body.dark-mode .skeleton { background: #222; }
 
-        /* --- MENÚS LATERALES --- */
+        /* SIDEBARS */
         .sidebar {
             position: fixed; top: 0; right: 0; width: 320px; height: 100%;
             background: var(--card); z-index: 2000; padding: 30px;
             transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column;
         }
         .sidebar.active { transform: translateX(0); }
         .sidebar-left { left: 0; right: auto; transform: translateX(-100%); }
@@ -148,25 +143,21 @@
             backdrop-filter: blur(4px);
         }
 
-        /* --- CARRITO --- */
         .cart-item {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(128,128,128,0.1);
         }
         .qty-btns { display: flex; align-items: center; gap: 10px; }
-        .qty-btns button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: none; color: var(--text); }
+        .qty-btns button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: none; color: var(--text); cursor: pointer; }
 
-        /* --- BOTON FLOTANTE --- */
+        /* BOTON FLOTANTE */
         #btnFlotante {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: var(--blue); color: white; border: none;
             padding: 16px 40px; border-radius: 50px; font-weight: bold;
             box-shadow: 0 10px 25px rgba(74, 144, 226, 0.4); z-index: 1100; cursor: pointer;
-            transition: 0.3s;
         }
-        #btnFlotante:hover { transform: translateX(-50%) scale(1.05); }
 
-        /* --- ANIMACION VOLAR --- */
         .fly-item {
             position: fixed; z-index: 9999; pointer-events: none;
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -181,9 +172,9 @@
         }
     </style>
 </head>
-<body class="light-mode">
+<body>
 
-    <header id="mainHeader">
+    <header>
         <div class="contenedor nav-grid">
             <div class="nav-left">
                 <button class="icon-btn" onclick="toggleSidebar('menuLateral')">☰</button>
@@ -197,38 +188,36 @@
             </div>
         </div>
         <div id="searchBox">
-            <input type="text" id="searchInp" placeholder="¿Qué estás buscando?" onkeyup="filtrarProductos()">
+            <input type="text" id="searchInp" placeholder="Buscar productos..." onkeyup="filtrarProductos()">
         </div>
     </header>
 
     <div id="menuLateral" class="sidebar sidebar-left">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="logo">Menú</div>
+            <div class="logo" style="background:none; -webkit-text-fill-color:var(--text);">Menú</div>
             <button class="icon-btn" onclick="closeAll()">✕</button>
         </div>
         <div style="margin-top:40px;">
-            <p style="font-weight:bold; margin-bottom:10px;">Ajustes</p>
             <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(128,128,128,0.1); padding:15px; border-radius:15px;">
                 <span>Modo Oscuro</span>
                 <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
             </div>
         </div>
         <nav style="margin-top:30px; display:flex; flex-direction:column; gap:20px;">
-            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">🔥 Novedades</a>
-            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">🎧 Audio</a>
-            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">🔌 Carga</a>
-            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">📱 Accesorios</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">Inicio</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">Productos</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">Novedades</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">Contacto</a>
         </nav>
     </div>
 
     <div id="cartSidebar" class="sidebar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="logo">Tu Carrito</div>
+            <div class="logo" style="background:none; -webkit-text-fill-color:var(--text);">Carrito</div>
             <button class="icon-btn" onclick="closeAll()">✕</button>
         </div>
-        <div id="cartContent" style="margin-top:30px; max-height: 60vh; overflow-y: auto;">
-            </div>
-        <div style="margin-top:auto; padding-top:20px; border-top:1px solid #ddd;">
+        <div id="cartContent" style="margin-top:30px; flex-grow: 1; overflow-y: auto;"></div>
+        <div style="padding-top:20px; border-top:1px solid rgba(128,128,128,0.2);">
             <h3 id="cartTotal">Total: $0</h3>
             <button class="btn-add" onclick="finalizarCompra()">Finalizar por WhatsApp</button>
             <button onclick="vaciarCarrito()" style="width:100%; background:none; border:none; color:red; margin-top:15px; cursor:pointer;">Vaciar Todo</button>
@@ -246,7 +235,7 @@
     </section>
 
     <main class="contenedor">
-        <h2 style="margin-bottom:30px;">Productos Destacados</h2>
+        <h2 style="margin-bottom:30px;">Destacados</h2>
         <div class="grid-productos" id="listaProductos">
             <div class="card skeleton" style="height:400px"></div>
             <div class="card skeleton" style="height:400px"></div>
@@ -254,20 +243,14 @@
         </div>
     </main>
 
-    <button id="btnFlotante" onclick="toggleSidebar('cartSidebar')">🛒 Ver Carrito</button>
+    <button id="btnFlotante" onclick="toggleSidebar('cartSidebar')">🛒 Carrito</button>
 
     <footer>
         <div class="logo">iPlugz</div>
-        <p>Los mejores accesorios tech de Argentina</p>
-        <div style="margin-top:20px; display:flex; justify-content:center; gap:20px;">
-            <a href="#" style="color:white; text-decoration:none;">Instagram</a>
-            <a href="#" style="color:white; text-decoration:none;">Facebook</a>
-        </div>
-        <p style="margin-top:40px; opacity:0.5; font-size:12px;">© 2026 iPlugz. Todos los derechos reservados.</p>
+        <p>&copy; 2026 iPlugz Argentina</p>
     </footer>
 
     <script>
-        // --- BASE DE DATOS Y ESTADO ---
         const PRODUCTOS_DB = [
             { id: 1, nombre: "Airpods Pro 2", precio: 35000, img: "airpods-pro2.JPG" },
             { id: 2, nombre: "Airpods Maxx", precio: 45000, img: "airpods-maxx.JPG" },
@@ -277,23 +260,18 @@
         let carrito = JSON.parse(localStorage.getItem('iplugz_cart')) || [];
         let darkMode = localStorage.getItem('iplugz_dark') === 'true';
 
-        // --- INICIALIZACIÓN ---
         window.addEventListener('DOMContentLoaded', () => {
             if (darkMode) {
                 document.body.classList.add('dark-mode');
                 document.getElementById('darkModeSwitch').checked = true;
             }
-            
-            // Simular carga profesional con skeleton
             setTimeout(() => {
                 renderProductos(PRODUCTOS_DB);
                 initParticles();
             }, 1200);
-
             actualizarCarritoUI();
         });
 
-        // --- FUNCIONES CORE ---
         function renderProductos(data) {
             const container = document.getElementById('listaProductos');
             container.innerHTML = data.map(p => `
@@ -306,7 +284,6 @@
                     </div>
                 </div>
             `).join('');
-            if(data.length === 0) container.innerHTML = "<p>No se encontraron productos.</p>";
         }
 
         function agregarAlCarrito(id, btn) {
@@ -317,62 +294,42 @@
             const img = btn.closest('.card').querySelector('img');
             const fly = img.cloneNode();
             const rect = img.getBoundingClientRect();
-            
             fly.classList.add('fly-item');
-            fly.style.top = rect.top + 'px';
-            fly.style.left = rect.left + 'px';
-            fly.style.width = rect.width + 'px';
+            fly.style.top = rect.top + 'px'; fly.style.left = rect.left + 'px'; fly.style.width = rect.width + 'px';
             document.body.appendChild(fly);
 
             const cartIcon = document.getElementById('contador').getBoundingClientRect();
-            
             setTimeout(() => {
-                fly.style.top = cartIcon.top + 'px';
-                fly.style.left = cartIcon.left + 'px';
-                fly.style.width = '20px';
-                fly.style.height = '20px';
-                fly.style.opacity = '0';
+                fly.style.top = cartIcon.top + 'px'; fly.style.left = cartIcon.left + 'px';
+                fly.style.width = '20px'; fly.style.opacity = '0';
             }, 10);
             setTimeout(() => fly.remove(), 800);
 
-            if (enCarrito) {
-                enCarrito.qty++;
-            } else {
-                carrito.push({ ...prod, qty: 1 });
-            }
-            
+            if (enCarrito) enCarrito.qty++;
+            else carrito.push({ ...prod, qty: 1 });
             saveAndUpdate();
         }
 
         function actualizarCarritoUI() {
             const container = document.getElementById('cartContent');
-            const totalElt = document.getElementById('cartTotal');
-            const contElt = document.getElementById('contador');
-            
-            let total = 0;
-            let qtyTotal = 0;
+            let total = 0; let qtyTotal = 0;
 
             container.innerHTML = carrito.map((item, index) => {
                 total += item.precio * item.qty;
                 qtyTotal += item.qty;
                 return `
                     <div class="cart-item">
-                        <div>
-                            <strong>${item.nombre}</strong><br>
-                            <small>$${item.precio.toLocaleString()}</small>
-                        </div>
+                        <div><strong>${item.nombre}</strong><br><small>$${item.precio.toLocaleString()}</small></div>
                         <div class="qty-btns">
                             <button onclick="changeQty(${index}, -1)">-</button>
                             <span>${item.qty}</span>
                             <button onclick="changeQty(${index}, 1)">+</button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }).join('');
 
-            totalElt.innerText = `Total: $${total.toLocaleString()}`;
-            contElt.innerText = qtyTotal;
-            contElt.style.display = qtyTotal > 0 ? 'block' : 'none';
+            document.getElementById('cartTotal').innerText = `Total: $${total.toLocaleString()}`;
+            document.getElementById('contador').innerText = qtyTotal;
         }
 
         function changeQty(index, delta) {
@@ -386,29 +343,20 @@
             actualizarCarritoUI();
         }
 
-        function vaciarCarrito() {
-            carrito = [];
-            saveAndUpdate();
-        }
+        function vaciarCarrito() { carrito = []; saveAndUpdate(); }
 
-        // --- COMPRA WHATSAPP ---
         function finalizarCompra() {
-            if (carrito.length === 0) return alert("Tu carrito está vacío");
-            
-            let mensaje = "¡Hola iPlugz! 🚀 Quiero realizar un pedido:\n\n";
+            if (carrito.length === 0) return alert("El carrito está vacío");
+            let mensaje = "¡Hola iPlugz! 🚀 Pedido nuevo:\n\n";
             let total = 0;
-            
             carrito.forEach(item => {
-                mensaje += `• ${item.nombre} (x${item.qty}) - $${(item.precio * item.qty).toLocaleString()}\n`;
+                mensaje += `• *${item.nombre}* (x${item.qty}) - $${(item.precio * item.qty).toLocaleString()}\n`;
                 total += item.precio * item.qty;
             });
-            
-            mensaje += `\n*Total a pagar: $${total.toLocaleString()}*`;
-            const url = `https://wa.me/5491100000000?text=${encodeURIComponent(mensaje)}`; // Cambia el número
-            window.open(url, '_blank');
+            mensaje += `\n*Total: $${total.toLocaleString()}*`;
+            window.open(`https://wa.me/5491127081095?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
 
-        // --- UI TOGGLES ---
         function toggleSidebar(id) {
             closeAll();
             document.getElementById(id).classList.add('active');
@@ -439,49 +387,23 @@
             localStorage.setItem('iplugz_dark', darkMode);
         }
 
-        // --- PARTICLES ENGINE ---
         function initParticles() {
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
             let w, h, particles = [];
-
-            function resize() {
-                w = canvas.width = canvas.offsetWidth;
-                h = canvas.height = canvas.offsetHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * w;
-                    this.y = Math.random() * h;
-                    this.size = Math.random() * 2 + 1;
-                    this.speedX = Math.random() * 1 - 0.5;
-                    this.speedY = Math.random() * 1 - 0.5;
-                }
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    if (this.x > w) this.x = 0; if (this.x < 0) this.x = w;
-                    if (this.y > h) this.y = 0; if (this.y < 0) this.y = h;
-                }
-                draw() {
-                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            for (let i = 0; i < 60; i++) particles.push(new Particle());
-
-            function animate() {
-                ctx.clearRect(0, 0, w, h);
-                particles.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(animate);
-            }
-            animate();
+            const resize = () => { w = canvas.width = canvas.offsetWidth; h = canvas.height = canvas.offsetHeight; };
+            window.addEventListener('resize', resize); resize();
+            for (let i = 0; i < 50; i++) particles.push({ x: Math.random()*w, y: Math.random()*h, s: Math.random()*2, vx: Math.random()-0.5, vy: Math.random()-0.5 });
+            const anim = () => {
+                ctx.clearRect(0,0,w,h); ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                particles.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    if(p.x<0) p.x=w; if(p.x>w) p.x=0; if(p.y<0) p.y=h; if(p.y>h) p.y=0;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+                });
+                requestAnimationFrame(anim);
+            };
+            anim();
         }
     </script>
 </body>
