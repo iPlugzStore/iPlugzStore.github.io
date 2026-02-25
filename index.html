@@ -1,290 +1,488 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>iPlugz - Experience Premium</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<style>
-/* VARIABLES CON SOPORTE PARA MODO OSCURO */
-:root {
-  --blue: #4A90E2;
-  --teal: #50E3C2;
-  --gradient: linear-gradient(90deg, var(--blue), var(--teal));
-  --bg: #f5f6fa;
-  --text: #111;
-  --card: #ffffff;
-  --header-bg: rgba(74, 144, 226, 0.9);
-}
+    <meta charset="UTF-8">
+    <title>iPlugz - Experience Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        :root {
+            --blue: #4A90E2;
+            --teal: #50E3C2;
+            --gradient: linear-gradient(135deg, var(--blue), var(--teal));
+            --bg: #f8f9fd;
+            --card: #ffffff;
+            --text: #111111;
+            --text-alt: #666666;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --header-blur: rgba(255, 255, 255, 0.8);
+        }
 
-body.dark-mode {
-  --bg: #121212;
-  --text: #ffffff;
-  --card: #1e1e1e;
-  --header-bg: rgba(20, 20, 20, 0.95);
-}
+        body.dark-mode {
+            --bg: #0f0f0f;
+            --card: #1a1a1a;
+            --text: #ffffff;
+            --text-alt: #aaaaaa;
+            --shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --header-blur: rgba(15, 15, 15, 0.8);
+        }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
 
-body { 
-  margin:0; padding:0; 
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-  background: var(--bg); color: var(--text); 
-  overflow-x:hidden; scroll-behavior:smooth;
-  transition: background 0.3s ease, color 0.3s ease;
-}
+        body {
+            margin: 0; padding: 0;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); color: var(--text);
+            overflow-x: hidden; transition: background 0.3s, color 0.3s;
+        }
 
-.contenedor { max-width:1100px; margin:0 auto; padding:0 20px; }
+        .contenedor { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* HEADER CON BUSCADOR */
-header {
-  position: fixed; top:0; left:0; width:100%;
-  background: var(--header-bg);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  padding: 12px 0; color: white; z-index: 1000;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
+        /* --- HEADER PROFESIONAL --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: var(--header-blur); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(128,128,128,0.1); transition: all 0.3s;
+        }
 
-.header-content {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-}
+        .nav-grid {
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center; height: 70px;
+        }
 
-.header-left { display: flex; align-items: center; gap: 15px; }
-#menuIcono { font-size: 26px; cursor: pointer; }
-#searchBtn { font-size: 20px; cursor: pointer; }
+        .nav-left { display: flex; gap: 20px; align-items: center; }
+        .nav-right { display: flex; justify-content: flex-end; align-items: center; }
 
-.logo { font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .icon-btn { 
+            background: none; border: none; font-size: 24px; cursor: pointer; 
+            color: var(--text); transition: transform 0.2s; padding: 5px;
+        }
+        .icon-btn:active { transform: scale(0.9); }
 
-#carritoIcono { font-size:24px; cursor:pointer; justify-self: end; position:relative; }
-#contador { position:absolute; top:-5px; right:-10px; background: white; color: var(--blue); padding:2px 6px; border-radius:50%; font-size:10px; font-weight:bold; }
+        .logo {
+            font-size: 22px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: 2px; background: var(--gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
-/* BARRA DE BUSQUEDA OCULTA */
-#searchBar {
-  position: absolute; top: 100%; left: 0; width: 100%; background: var(--card);
-  padding: 15px; display: none; box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-}
-#searchBar input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
+        #contador {
+            position: absolute; top: -5px; right: -8px;
+            background: var(--blue); color: white;
+            font-size: 10px; padding: 2px 6px; border-radius: 10px;
+            font-weight: bold; border: 2px solid var(--bg);
+        }
 
-/* HERO CON PARTÍCULAS */
-.hero {
-  position: relative; text-align:center; padding:110px 20px 80px; 
-  border-radius: 0 0 50px 50px; color:white; margin-bottom:40px;
-  background: var(--gradient); overflow: hidden;
-}
-#particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-.hero-content { position: relative; z-index: 2; }
-.hero h1 { font-size: 38px; margin-bottom: 12px; }
+        /* --- BUSCADOR --- */
+        #searchBox {
+            position: absolute; top: 70px; left: 0; width: 100%;
+            background: var(--card); padding: 15px;
+            display: none; box-shadow: var(--shadow);
+        }
+        #searchBox input {
+            width: 100%; max-width: 800px; margin: 0 auto; display: block;
+            padding: 12px 20px; border-radius: 30px; border: 1px solid rgba(128,128,128,0.2);
+            background: var(--bg); color: var(--text); font-size: 16px;
+        }
 
-/* SKELETON LOADING ANIMATION */
-.skeleton {
-  background: #eee;
-  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
-  background-size: 200% 100%;
-  animation: 1.5s shine linear infinite;
-}
-body.dark-mode .skeleton {
-  background: #2a2a2a;
-  background: linear-gradient(110deg, #2a2a2a 8%, #333 18%, #2a2a2a 33%);
-  background-size: 200% 100%;
-}
-@keyframes shine { to { background-position-x: -200%; } }
+        /* --- HERO & PARTICLES --- */
+        .hero {
+            position: relative; height: 450px; display: flex; align-items: center;
+            justify-content: center; text-align: center; color: white;
+            background: var(--gradient); overflow: hidden; margin-bottom: 40px;
+            border-radius: 0 0 50px 50px;
+        }
+        #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .hero-text { position: relative; z-index: 2; padding: 0 20px; }
+        .hero h1 { font-size: 42px; margin: 0; font-weight: 800; }
+        .hero p { font-size: 18px; opacity: 0.9; margin-top: 10px; }
 
-/* PRODUCTOS */
-.productos { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; padding-bottom: 100px; }
-.producto {
-  background: var(--card); border-radius: 24px; overflow: hidden; 
-  text-align: center; width: 100%; max-width: 280px;
-  box-shadow: var(--shadow); transition: 0.3s;
-}
-.producto img { width: 100%; display: block; }
-.producto.loading img, .producto.loading h3, .producto.loading p { visibility: hidden; }
+        /* --- PRODUCTOS & SKELETON --- */
+        .grid-productos {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px; padding-bottom: 100px;
+        }
 
-/* MENU LATERAL */
-#menuLateral {
-  position:fixed; top:0; left:0; width:280px; height:100%;
-  background: var(--card); z-index: 2001;
-  transform: translateX(-100%); transition: 0.3s ease; padding: 30px;
-}
-#menuLateral.abierto { transform: translateX(0); }
-#menuLateral a { display: block; padding: 15px 0; font-size: 18px; font-weight: bold; border-bottom: 1px solid #eee; }
+        .card {
+            background: var(--card); border-radius: 30px; overflow: hidden;
+            box-shadow: var(--shadow); transition: transform 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-10px); }
 
-/* SWITCH MODO OSCURO */
-.dark-mode-toggle { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; font-weight: bold; }
-.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-input:checked + .slider { background-color: var(--blue); }
-input:checked + .slider:before { transform: translateX(26px); }
+        .card img { width: 100%; height: 280px; object-fit: cover; }
+        .card-body { padding: 20px; text-align: center; }
+        .card h3 { margin: 0; font-size: 20px; }
+        .card .precio { color: var(--blue); font-weight: bold; font-size: 22px; margin: 10px 0; }
 
-#btnFlotante {
-  position:fixed; bottom:25px; left: 50%; transform: translateX(-50%);
-  background: var(--blue); color:#fff; border:none; padding:16px 35px; border-radius:50px; 
-  font-size:17px; font-weight:bold; box-shadow: 0 8px 20px rgba(0,0,0,0.2); z-index:900;
-}
-#overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:1999; }
-</style>
+        .btn-add {
+            width: 100%; padding: 15px; border: none; border-radius: 20px;
+            background: var(--gradient); color: white; font-weight: bold;
+            font-size: 16px; cursor: pointer; transition: opacity 0.3s;
+        }
+
+        /* SKELETON ANIMATION */
+        .skeleton {
+            background: #eee; position: relative; overflow: hidden;
+        }
+        .skeleton::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        body.dark-mode .skeleton { background: #222; }
+
+        /* --- MENÚS LATERALES --- */
+        .sidebar {
+            position: fixed; top: 0; right: 0; width: 320px; height: 100%;
+            background: var(--card); z-index: 2000; padding: 30px;
+            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        }
+        .sidebar.active { transform: translateX(0); }
+        .sidebar-left { left: 0; right: auto; transform: translateX(-100%); }
+        .sidebar-left.active { transform: translateX(0); }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1500; display: none;
+            backdrop-filter: blur(4px);
+        }
+
+        /* --- CARRITO --- */
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(128,128,128,0.1);
+        }
+        .qty-btns { display: flex; align-items: center; gap: 10px; }
+        .qty-btns button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: none; color: var(--text); }
+
+        /* --- BOTON FLOTANTE --- */
+        #btnFlotante {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--blue); color: white; border: none;
+            padding: 16px 40px; border-radius: 50px; font-weight: bold;
+            box-shadow: 0 10px 25px rgba(74, 144, 226, 0.4); z-index: 1100; cursor: pointer;
+            transition: 0.3s;
+        }
+        #btnFlotante:hover { transform: translateX(-50%) scale(1.05); }
+
+        /* --- ANIMACION VOLAR --- */
+        .fly-item {
+            position: fixed; z-index: 9999; pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px; object-fit: cover;
+        }
+
+        footer { background: #000; color: white; text-align: center; padding: 60px 20px 120px; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 32px; }
+            .sidebar { width: 100%; }
+        }
+    </style>
 </head>
-<body class="loading">
+<body class="light-mode">
 
-<header>
-  <div class="header-content contenedor">
-    <div class="header-left">
-      <div id="menuIcono" onclick="toggleMenu()">☰</div>
-      <div id="searchBtn" onclick="toggleSearch()">🔍</div>
+    <header id="mainHeader">
+        <div class="contenedor nav-grid">
+            <div class="nav-left">
+                <button class="icon-btn" onclick="toggleSidebar('menuLateral')">☰</button>
+                <button class="icon-btn" onclick="toggleSearch()">🔍</button>
+            </div>
+            <div class="logo">iPlugz</div>
+            <div class="nav-right">
+                <button class="icon-btn" style="position:relative" onclick="toggleSidebar('cartSidebar')">
+                    🛒 <span id="contador">0</span>
+                </button>
+            </div>
+        </div>
+        <div id="searchBox">
+            <input type="text" id="searchInp" placeholder="¿Qué estás buscando?" onkeyup="filtrarProductos()">
+        </div>
+    </header>
+
+    <div id="menuLateral" class="sidebar sidebar-left">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">Menú</div>
+            <button class="icon-btn" onclick="closeAll()">✕</button>
+        </div>
+        <div style="margin-top:40px;">
+            <p style="font-weight:bold; margin-bottom:10px;">Ajustes</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(128,128,128,0.1); padding:15px; border-radius:15px;">
+                <span>Modo Oscuro</span>
+                <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+            </div>
+        </div>
+        <nav style="margin-top:30px; display:flex; flex-direction:column; gap:20px;">
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">🔥 Novedades</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">🎧 Audio</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">🔌 Carga</a>
+            <a href="#" style="text-decoration:none; color:var(--text); font-size:18px;">📱 Accesorios</a>
+        </nav>
     </div>
-    <div class="logo">iPlugz</div>
-    <div id="carritoIcono" onclick="abrirCarrito()">🛒<span id="contador">0</span></div>
-  </div>
-  <div id="searchBar">
-    <input type="text" id="searchInput" placeholder="Buscar producto..." onkeyup="buscar()">
-  </div>
-</header>
 
-<div id="menuLateral">
-  <div style="text-align:right; font-size:30px; cursor:pointer" onclick="toggleMenu()">&times;</div>
-  <a href="#">Inicio</a>
-  <a href="#">Productos</a>
-  <div class="dark-mode-toggle">
-    <span>Modo Oscuro</span>
-    <label class="switch">
-      <input type="checkbox" id="darkModeCheck" onclick="toggleDarkMode()">
-      <span class="slider"></span>
-    </label>
-  </div>
-</div>
-
-<div class="hero">
-  <canvas id="particles-canvas"></canvas>
-  <div class="hero-content">
-    <h1>Accesorios Premium</h1>
-    <p>Calidad • Precio • Confianza</p>
-  </div>
-</div>
-
-<div class="contenido contenedor">
-  <div class="productos" id="listaProductos">
-    <div class="producto loading skeleton" style="height: 350px;"></div>
-    <div class="producto loading skeleton" style="height: 350px;"></div>
-    <div class="producto loading skeleton" style="height: 350px;"></div>
-  </div>
-</div>
-
-<button id="btnFlotante" onclick="abrirCarrito()">🛒 Carrito</button>
-<div id="overlay" onclick="cerrarTodo()"></div>
-
-<div id="carrito" style="position:fixed; top:0; right:0; width:85%; max-width:320px; height:100%; background:var(--card); z-index:2000; padding:20px; transform:translateX(100%); transition:0.3s;">
-  <h3>Tu Carrito</h3>
-  <div id="items"></div>
-  <h4 id="total">Total: $0</h4>
-  <button onclick="cerrarTodo()" style="width:100%; padding:10px; margin-top:10px;">Cerrar</button>
-</div>
-
-<script>
-// DATOS DE PRODUCTOS
-const db = [
-  { nombre: "Airpods Pro 2", precio: 35000, img: "airpods-pro2.JPG" },
-  { nombre: "Airpods Maxx", precio: 45000, img: "airpods-maxx.JPG" },
-  { nombre: "Cable USB C + Cabezal", precio: 18000, img: "cable-usb-c.JPG" }
-];
-
-var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-// 1. SKELETON LOADING SIMULADO
-window.onload = () => {
-  setTimeout(() => {
-    renderProductos(db);
-    initParticles();
-  }, 1500); // 1.5 segundos de carga para mostrar el efecto
-};
-
-function renderProductos(data) {
-  const container = document.getElementById("listaProductos");
-  container.innerHTML = data.map(p => `
-    <div class="producto visible">
-      <img src="${p.img}" alt="${p.nombre}">
-      <h3>${p.nombre}</h3>
-      <p>$${p.precio}</p>
-      <button onclick="agregar('${p.nombre}', ${p.precio}, this)" style="width:90%; padding:10px; border-radius:20px; border:none; background:var(--teal); color:white; font-weight:bold; margin-bottom:15px; cursor:pointer;">Agregar al carrito</button>
+    <div id="cartSidebar" class="sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">Tu Carrito</div>
+            <button class="icon-btn" onclick="closeAll()">✕</button>
+        </div>
+        <div id="cartContent" style="margin-top:30px; max-height: 60vh; overflow-y: auto;">
+            </div>
+        <div style="margin-top:auto; padding-top:20px; border-top:1px solid #ddd;">
+            <h3 id="cartTotal">Total: $0</h3>
+            <button class="btn-add" onclick="finalizarCompra()">Finalizar por WhatsApp</button>
+            <button onclick="vaciarCarrito()" style="width:100%; background:none; border:none; color:red; margin-top:15px; cursor:pointer;">Vaciar Todo</button>
+        </div>
     </div>
-  `).join('');
-}
 
-// 2. BUSCADOR
-function toggleSearch() {
-  let sb = document.getElementById("searchBar");
-  sb.style.display = sb.style.display === "block" ? "none" : "block";
-}
-function buscar() {
-  let term = document.getElementById("searchInput").value.toLowerCase();
-  let filtrados = db.filter(p => p.nombre.toLowerCase().includes(term));
-  renderProductos(filtrados);
-}
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
-// 3. MODO OSCURO
-function toggleDarkMode() {
-  document.body.classList.toggle("dark-mode");
-  let isDark = document.body.classList.contains("dark-mode");
-  localStorage.setItem("dark-mode", isDark);
-}
+    <section class="hero">
+        <canvas id="particles-canvas"></canvas>
+        <div class="hero-text">
+            <h1>Accesorios Premium</h1>
+            <p>Calidad • Precio • Confianza</p>
+        </div>
+    </section>
 
-// 4. FONDO DE PARTÍCULAS (Canvas)
-function initParticles() {
-  const canvas = document.getElementById("particles-canvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = 400;
+    <main class="contenedor">
+        <h2 style="margin-bottom:30px;">Productos Destacados</h2>
+        <div class="grid-productos" id="listaProductos">
+            <div class="card skeleton" style="height:400px"></div>
+            <div class="card skeleton" style="height:400px"></div>
+            <div class="card skeleton" style="height:400px"></div>
+        </div>
+    </main>
 
-  let particles = [];
-  for(let i=0; i<50; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      size: Math.random() * 3
-    });
-  }
+    <button id="btnFlotante" onclick="toggleSidebar('cartSidebar')">🛒 Ver Carrito</button>
 
-  function animate() {
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(255,255,255,0.5)";
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-      if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-      ctx.fill();
-    });
-    requestAnimationFrame(animate);
-  }
-  animate();
-}
+    <footer>
+        <div class="logo">iPlugz</div>
+        <p>Los mejores accesorios tech de Argentina</p>
+        <div style="margin-top:20px; display:flex; justify-content:center; gap:20px;">
+            <a href="#" style="color:white; text-decoration:none;">Instagram</a>
+            <a href="#" style="color:white; text-decoration:none;">Facebook</a>
+        </div>
+        <p style="margin-top:40px; opacity:0.5; font-size:12px;">© 2026 iPlugz. Todos los derechos reservados.</p>
+    </footer>
 
-// FUNCIONES DE CARRITO (Iguales a las anteriores actualizadas)
-function toggleMenu() { document.getElementById("menuLateral").classList.toggle("abierto"); }
-function abrirCarrito() { document.getElementById("carrito").style.transform = "translateX(0)"; document.getElementById("overlay").style.display = "block"; }
-function cerrarTodo() { 
-  document.getElementById("menuLateral").classList.remove("abierto"); 
-  document.getElementById("carrito").style.transform = "translateX(100%)"; 
-  document.getElementById("overlay").style.display = "none"; 
-}
+    <script>
+        // --- BASE DE DATOS Y ESTADO ---
+        const PRODUCTOS_DB = [
+            { id: 1, nombre: "Airpods Pro 2", precio: 35000, img: "airpods-pro2.JPG" },
+            { id: 2, nombre: "Airpods Maxx", precio: 45000, img: "airpods-maxx.JPG" },
+            { id: 3, nombre: "Cable USB C + Cabezal", precio: 18000, img: "cable-usb-c.JPG" }
+        ];
 
-function agregar(nombre, precio, btn){
-  let item = carrito.find(p => p.nombre === nombre);
-  if(item) item.cantidad++;
-  else carrito.push({nombre, precio, cantidad: 1});
-  actualizar();
-}
+        let carrito = JSON.parse(localStorage.getItem('iplugz_cart')) || [];
+        let darkMode = localStorage.getItem('iplugz_dark') === 'true';
 
-function actualizar(){
-  document.getElementById("contador").innerHTML = carrito.reduce((sum, p) => sum + p.cantidad, 0);
-  document.getElementById("total").innerHTML = "Total: $" + carrito.reduce((sum, p) => sum + (p.precio*p.cantidad), 0);
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-actualizar();
-</script>
+        // --- INICIALIZACIÓN ---
+        window.addEventListener('DOMContentLoaded', () => {
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeSwitch').checked = true;
+            }
+            
+            // Simular carga profesional con skeleton
+            setTimeout(() => {
+                renderProductos(PRODUCTOS_DB);
+                initParticles();
+            }, 1200);
+
+            actualizarCarritoUI();
+        });
+
+        // --- FUNCIONES CORE ---
+        function renderProductos(data) {
+            const container = document.getElementById('listaProductos');
+            container.innerHTML = data.map(p => `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.nombre}">
+                    <div class="card-body">
+                        <h3>${p.nombre}</h3>
+                        <p class="precio">$${p.precio.toLocaleString()}</p>
+                        <button class="btn-add" onclick="agregarAlCarrito(${p.id}, this)">Agregar al carrito</button>
+                    </div>
+                </div>
+            `).join('');
+            if(data.length === 0) container.innerHTML = "<p>No se encontraron productos.</p>";
+        }
+
+        function agregarAlCarrito(id, btn) {
+            const prod = PRODUCTOS_DB.find(p => p.id === id);
+            const enCarrito = carrito.find(item => item.id === id);
+
+            // Animación Fly
+            const img = btn.closest('.card').querySelector('img');
+            const fly = img.cloneNode();
+            const rect = img.getBoundingClientRect();
+            
+            fly.classList.add('fly-item');
+            fly.style.top = rect.top + 'px';
+            fly.style.left = rect.left + 'px';
+            fly.style.width = rect.width + 'px';
+            document.body.appendChild(fly);
+
+            const cartIcon = document.getElementById('contador').getBoundingClientRect();
+            
+            setTimeout(() => {
+                fly.style.top = cartIcon.top + 'px';
+                fly.style.left = cartIcon.left + 'px';
+                fly.style.width = '20px';
+                fly.style.height = '20px';
+                fly.style.opacity = '0';
+            }, 10);
+            setTimeout(() => fly.remove(), 800);
+
+            if (enCarrito) {
+                enCarrito.qty++;
+            } else {
+                carrito.push({ ...prod, qty: 1 });
+            }
+            
+            saveAndUpdate();
+        }
+
+        function actualizarCarritoUI() {
+            const container = document.getElementById('cartContent');
+            const totalElt = document.getElementById('cartTotal');
+            const contElt = document.getElementById('contador');
+            
+            let total = 0;
+            let qtyTotal = 0;
+
+            container.innerHTML = carrito.map((item, index) => {
+                total += item.precio * item.qty;
+                qtyTotal += item.qty;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.nombre}</strong><br>
+                            <small>$${item.precio.toLocaleString()}</small>
+                        </div>
+                        <div class="qty-btns">
+                            <button onclick="changeQty(${index}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalElt.innerText = `Total: $${total.toLocaleString()}`;
+            contElt.innerText = qtyTotal;
+            contElt.style.display = qtyTotal > 0 ? 'block' : 'none';
+        }
+
+        function changeQty(index, delta) {
+            carrito[index].qty += delta;
+            if (carrito[index].qty <= 0) carrito.splice(index, 1);
+            saveAndUpdate();
+        }
+
+        function saveAndUpdate() {
+            localStorage.setItem('iplugz_cart', JSON.stringify(carrito));
+            actualizarCarritoUI();
+        }
+
+        function vaciarCarrito() {
+            carrito = [];
+            saveAndUpdate();
+        }
+
+        // --- COMPRA WHATSAPP ---
+        function finalizarCompra() {
+            if (carrito.length === 0) return alert("Tu carrito está vacío");
+            
+            let mensaje = "¡Hola iPlugz! 🚀 Quiero realizar un pedido:\n\n";
+            let total = 0;
+            
+            carrito.forEach(item => {
+                mensaje += `• ${item.nombre} (x${item.qty}) - $${(item.precio * item.qty).toLocaleString()}\n`;
+                total += item.precio * item.qty;
+            });
+            
+            mensaje += `\n*Total a pagar: $${total.toLocaleString()}*`;
+            const url = `https://wa.me/5491100000000?text=${encodeURIComponent(mensaje)}`; // Cambia el número
+            window.open(url, '_blank');
+        }
+
+        // --- UI TOGGLES ---
+        function toggleSidebar(id) {
+            closeAll();
+            document.getElementById(id).classList.add('active');
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function toggleSearch() {
+            const sb = document.getElementById('searchBox');
+            sb.style.display = sb.style.display === 'block' ? 'none' : 'block';
+            if(sb.style.display === 'block') document.getElementById('searchInp').focus();
+        }
+
+        function closeAll() {
+            document.querySelectorAll('.sidebar').forEach(s => s.classList.remove('active'));
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('searchBox').style.display = 'none';
+        }
+
+        function filtrarProductos() {
+            const term = document.getElementById('searchInp').value.toLowerCase();
+            const filtrados = PRODUCTOS_DB.filter(p => p.nombre.toLowerCase().includes(term));
+            renderProductos(filtrados);
+        }
+
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('iplugz_dark', darkMode);
+        }
+
+        // --- PARTICLES ENGINE ---
+        function initParticles() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h, particles = [];
+
+            function resize() {
+                w = canvas.width = canvas.offsetWidth;
+                h = canvas.height = canvas.offsetHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x > w) this.x = 0; if (this.x < 0) this.x = w;
+                    if (this.y > h) this.y = 0; if (this.y < 0) this.y = h;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
 </body>
 </html>
