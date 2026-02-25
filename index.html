@@ -24,7 +24,7 @@ body > .contenido{ padding-top:80px; }
 /* PRODUCTOS */
 .productos{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; box-sizing:border-box; }
 .producto{ width:100%; max-width:260px; text-align:center; box-sizing:border-box; position:relative; }
-.producto img{ width:100%; border-radius:20px; transition:0.3s; }
+.producto img{ width:100%; border-radius:20px; transition:0.3s; cursor:pointer; }
 .producto img:hover{ transform:scale(1.05); }
 .producto h3{ margin:15px 0 5px; font-weight:500; }
 .producto p{ color:#666; }
@@ -62,26 +62,37 @@ button:hover{ background:#333; }
   </div>
 
   <div class="productos">
+
+    <!-- Airpods Pro 2 -->
     <div class="producto">
-      <img src="airpods-pro2.JPG" alt="Airpods Pro 2">
+      <a href="airpods-pro2.html">
+        <img src="airpods-pro2.JPG" alt="Airpods Pro 2">
+      </a>
       <h3>Airpods Pro 2</h3>
       <p>$35.000</p>
       <button onclick="agregar('Airpods Pro 2',35000,this)">Agregar al carrito</button>
     </div>
 
+    <!-- Airpods Maxx -->
     <div class="producto">
-      <img src="airpods-maxx.JPG" alt="Airpods Maxx">
+      <a href="airpods-maxx.html">
+        <img src="airpods-maxx.JPG" alt="Airpods Maxx">
+      </a>
       <h3>Airpods Maxx</h3>
       <p>$45.000</p>
       <button onclick="agregar('Airpods Maxx',45000,this)">Agregar al carrito</button>
     </div>
 
+    <!-- Cable USB C + Cabezal -->
     <div class="producto">
-      <img src="cable-usb-c.JPG" alt="Cable USB C">
+      <a href="cable-usb-c.html">
+        <img src="cable-usb-c.JPG" alt="Cable USB C">
+      </a>
       <h3>Cable USB C + Cabezal</h3>
       <p>$18.000</p>
       <button onclick="agregar('Cable USB C',18000,this)">Agregar al carrito</button>
     </div>
+
   </div>
 </div>
 
