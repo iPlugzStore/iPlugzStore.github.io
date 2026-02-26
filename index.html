@@ -49,8 +49,8 @@ header {
 }
 .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
 .logo { font-size: 22px; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
-.icon-btn { font-size: 24px; cursor: pointer; border: none; background: none; color: var(--text); position: relative; }
-#contador-badge { position: absolute; top: -5px; right: -10px; background: var(--blue); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+.icon-btn { font-size: 24px; cursor: pointer; border: none; background: none; color: var(--text); position: relative; display: flex; align-items: center; }
+#contador-badge { position: absolute; top: -5px; right: -10px; background: var(--blue); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
 
 /* HERO */
 .hero {
@@ -69,33 +69,35 @@ header {
 .producto img { width: 100%; height: 280px; object-fit: contain; background: #fff; padding: 15px; }
 .p-info { padding: 20px; }
 .btn-add { width: 100%; padding: 14px; border: none; border-radius: 20px; background: #000; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
-.btn-add:active { transform: scale(0.95); }
 
-/* SIDEBARS (CARRITO Y MENU) */
+/* SIDEBARS */
 .sidebar {
   position:fixed; top:0; right:0; width:85%; max-width:380px; height:100%;
   background: var(--card); z-index: 2000; padding: 25px;
   transform: translateX(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
   display: flex; flex-direction: column;
 }
 .sidebar.abierto { transform: translateX(0); }
 #menuLateral { left: 0; right: auto; transform: translateX(-100%); }
 #menuLateral.abierto { transform: translateX(0); }
-
 #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:1999; backdrop-filter: blur(4px); }
 
-/* ITEMS DEL CARRITO */
-.cart-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-.cart-item-info b { display: block; font-size: 14px; }
-.cart-item-btns { display: flex; align-items: center; gap: 10px; }
+/* ITEMS CARRITO */
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
 .btn-qty { width: 25px; height: 25px; border-radius: 50%; border: 1px solid #ddd; background: none; cursor: pointer; color: var(--text); }
 
-/* BOTONES FLOTANTES */
-.wsp-float { position: fixed; bottom: 25px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 1500; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+/* BOTÓN WHATSAPP OFICIAL */
+.wsp-float {
+  position: fixed; bottom: 25px; right: 20px;
+  background: #25d366; color: white;
+  width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1500; text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+.wsp-float:active { transform: scale(0.9); }
+.wsp-float svg { width: 35px; height: 35px; fill: white; }
 
 /* FORMULARIO */
 .form-group { margin-bottom: 12px; text-align: left; }
@@ -123,7 +125,6 @@ header {
 
 <div class="hero">
   <h1>Accesorios<br>Premium</h1>
-  <p>Calidad • Precio • Confianza</p>
 </div>
 
 <main class="productos" id="lista-productos"></main>
@@ -133,8 +134,7 @@ header {
     <h3>Menú</h3>
     <div class="icon-btn" onclick="cerrarTodo()">&times;</div>
   </div>
-  <p onclick="cerrarTodo()" style="margin-bottom: 20px; font-weight: 600;">Inicio</p>
-  <p onclick="cerrarTodo()" style="margin-bottom: 20px; font-weight: 600;">Productos</p>
+  <p onclick="cerrarTodo()" style="margin-bottom: 20px;">Inicio</p>
   <div style="display:flex; justify-content:space-between; align-items: center;">
     <span>Modo Oscuro</span>
     <input type="checkbox" onchange="document.body.classList.toggle('dark-mode')">
@@ -146,8 +146,7 @@ header {
     <h3>Tu Carrito</h3>
     <div class="icon-btn" onclick="cerrarTodo()">&times;</div>
   </div>
-  <div id="cart-items" style="flex-grow:1; overflow-y:auto;">
-    </div>
+  <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
   <div style="padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
     <h3 id="total-price" style="margin-bottom: 15px;">Total: $0</h3>
     <button class="btn-add" onclick="abrirSiderbar('checkout')" style="background: var(--blue);">CONTINUAR COMPRA</button>
@@ -159,16 +158,18 @@ header {
     <h3>Tus Datos</h3>
     <div class="icon-btn" onclick="abrirSiderbar('carrito')">⬅</div>
   </div>
-  <div class="form-group"><label>NOMBRE</label><input type="text" id="f-nom" placeholder="Juan Perez"></div>
-  <div class="form-group"><label>DIRECCIÓN</label><input type="text" id="f-dir" placeholder="Calle y altura"></div>
-  <div class="form-group"><label>TELÉFONO</label><input type="tel" id="f-tel" placeholder="11 1234 5678"></div>
-  <div class="form-group"><label>EMAIL</label><input type="email" id="f-mail" placeholder="juan@gmail.com"></div>
-  <button class="btn-add" onclick="enviarWhatsApp()" style="background:#25d366; margin-top:10px;">PEDIR POR WHATSAPP</button>
+  <div class="form-group"><label>NOMBRE</label><input type="text" id="f-nom"></div>
+  <div class="form-group"><label>DIRECCIÓN</label><input type="text" id="f-dir"></div>
+  <div class="form-group"><label>TELÉFONO</label><input type="tel" id="f-tel"></div>
+  <div class="form-group"><label>EMAIL</label><input type="email" id="f-mail"></div>
+  <button class="btn-add" onclick="enviarWhatsApp()" style="background:#25d366">CONFIRMAR PEDIDO</button>
 </div>
 
 <div id="overlay" onclick="cerrarTodo()"></div>
 
-<a href="https://wa.me/5491127081095" class="wsp-float" target="_blank">📲</a>
+<a href="https://wa.me/5491127081095" class="wsp-float" target="_blank">
+  <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.6-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.6-9.3 1.9-3.7 1-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.6 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+</a>
 
 <script>
 const PRODUCTOS = [
@@ -177,6 +178,7 @@ const PRODUCTOS = [
   { id: 3, nombre: "Cable USB C + Cabezal", precio: 18000, img: "cable-usb-c.JPG" }
 ];
 
+// Arreglo del NaN: Asegurar que el carrito empiece vacío si no hay nada en storage
 let carrito = JSON.parse(localStorage.getItem("iplugz_cart")) || [];
 
 function init() {
@@ -198,7 +200,7 @@ function agregarItem(id) {
   const prod = PRODUCTOS.find(x => x.id === id);
   const existe = carrito.find(x => x.id === id);
   if(existe) {
-    existe.cantidad++;
+    existe.cantidad = (parseInt(existe.cantidad) || 0) + 1;
   } else {
     carrito.push({...prod, cantidad: 1});
   }
@@ -208,7 +210,7 @@ function agregarItem(id) {
 function cambiarCantidad(id, delta) {
   const item = carrito.find(x => x.id === id);
   if(item) {
-    item.cantidad += delta;
+    item.cantidad = (parseInt(item.cantidad) || 0) + delta;
     if(item.cantidad <= 0) {
       carrito = carrito.filter(x => x.id !== id);
     }
@@ -222,17 +224,16 @@ function actualizarVista() {
   let totalItems = 0;
   
   container.innerHTML = carrito.map((item) => {
-    total += item.precio * item.cantidad;
-    totalItems += item.cantidad;
+    // Forzamos que cantidad sea número para evitar el NaN
+    const cant = parseInt(item.cantidad) || 0;
+    total += item.precio * cant;
+    totalItems += cant;
     return `
       <div class="cart-item">
-        <div class="cart-item-info">
-          <b>${item.nombre}</b>
-          <span>$${item.precio.toLocaleString()}</span>
-        </div>
+        <div class="cart-item-info"><b>${item.nombre}</b><span>$${item.precio.toLocaleString()}</span></div>
         <div class="cart-item-btns">
           <button class="btn-qty" onclick="cambiarCantidad(${item.id}, -1)">-</button>
-          <span>${item.cantidad}</span>
+          <span>${cant}</span>
           <button class="btn-qty" onclick="cambiarCantidad(${item.id}, 1)">+</button>
         </div>
       </div>`;
