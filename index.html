@@ -28,7 +28,7 @@ body {
   overflow-x:hidden; transition: 0.3s;
 }
 
-/* TOP BAR ANUNCIOS */
+/* TOP BAR */
 .top-bar {
   background: #000; color: #fff; height: 35px;
   display: flex; align-items: center; overflow: hidden;
@@ -49,7 +49,8 @@ header {
 }
 .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
 .logo { font-size: 22px; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
-.icon-btn { font-size: 24px; cursor: pointer; border: none; background: none; color: var(--text); padding: 5px; display: flex; align-items: center; }
+.icon-btn { font-size: 24px; cursor: pointer; border: none; background: none; color: var(--text); position: relative; }
+#contador-badge { position: absolute; top: -5px; right: -10px; background: var(--blue); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
 
 /* HERO */
 .hero {
@@ -58,26 +59,24 @@ header {
   background: #000;
 }
 .hero h1 { font-size: 40px; margin-bottom: 10px; font-weight: 800; }
-.hero p { font-size: 16px; opacity: 0.7; letter-spacing: 1px; }
 
 /* PRODUCTOS */
 .productos { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 15px 120px; }
 .producto {
   background: var(--card); border-radius: 30px; overflow: hidden; 
   text-align: center; width: 100%; max-width: 320px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  transition: transform 0.3s;
 }
-.producto:active { transform: scale(0.98); }
 .producto img { width: 100%; height: 280px; object-fit: contain; background: #fff; padding: 15px; }
 .p-info { padding: 20px; }
-.p-info h3 { margin-bottom: 10px; }
-.btn-add { width: 100%; padding: 14px; border: none; border-radius: 20px; background: #000; color: #fff; font-weight: bold; cursor: pointer; }
+.btn-add { width: 100%; padding: 14px; border: none; border-radius: 20px; background: #000; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.btn-add:active { transform: scale(0.95); }
 
-/* SIDEBARS */
+/* SIDEBARS (CARRITO Y MENU) */
 .sidebar {
   position:fixed; top:0; right:0; width:85%; max-width:380px; height:100%;
   background: var(--card); z-index: 2000; padding: 25px;
   transform: translateX(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
   display: flex; flex-direction: column;
 }
 .sidebar.abierto { transform: translateX(0); }
@@ -86,9 +85,17 @@ header {
 
 #overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:1999; backdrop-filter: blur(4px); }
 
+/* ITEMS DEL CARRITO */
+.cart-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.cart-item-info b { display: block; font-size: 14px; }
+.cart-item-btns { display: flex; align-items: center; gap: 10px; }
+.btn-qty { width: 25px; height: 25px; border-radius: 50%; border: 1px solid #ddd; background: none; cursor: pointer; color: var(--text); }
+
 /* BOTONES FLOTANTES */
 .wsp-float { position: fixed; bottom: 25px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 1500; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-.cart-float { position: fixed; bottom: 25px; left: 20px; background: var(--blue); color: white; padding: 15px 25px; border-radius: 50px; font-weight: bold; z-index: 1500; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: none; }
 
 /* FORMULARIO */
 .form-group { margin-bottom: 12px; text-align: left; }
@@ -103,15 +110,14 @@ header {
     <span>⚡ ENVÍOS A TODO EL PAÍS</span>
     <span>🔥 10% OFF POR TRANSFERENCIA</span>
     <span>📦 DESCUENTOS LLEVANDO 3 PRODUCTOS</span>
-    <span>⚡ ENVÍOS A TODO EL PAÍS</span>
   </div>
 </div>
 
 <header>
   <div class="header-content">
-    <button class="icon-btn" onclick="abrirSiderbar('menuLateral')">☰</button>
+    <div class="icon-btn" onclick="abrirSiderbar('menuLateral')">☰</div>
     <a href="#" class="logo">iPlugz</a>
-    <button class="icon-btn" onclick="abrirSiderbar('carrito')">🛒<span id="contador">0</span></button>
+    <div class="icon-btn" onclick="abrirSiderbar('carrito')">🛒<span id="contador-badge">0</span></div>
   </div>
 </header>
 
@@ -125,36 +131,35 @@ header {
 <div id="menuLateral" class="sidebar">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 30px;">
     <h3>Menú</h3>
-    <button class="icon-btn" onclick="cerrarTodo()">&times;</button>
+    <div class="icon-btn" onclick="cerrarTodo()">&times;</div>
   </div>
-  <nav style="display: flex; flex-direction: column; gap: 20px; font-weight: 600;">
-    <p onclick="cerrarTodo()">Inicio</p>
-    <p onclick="cerrarTodo()">Productos</p>
-    <div style="display:flex; justify-content:space-between; align-items: center; margin-top: 10px;">
-      <span>Modo Oscuro</span>
-      <input type="checkbox" onchange="document.body.classList.toggle('dark-mode')">
-    </div>
-  </nav>
+  <p onclick="cerrarTodo()" style="margin-bottom: 20px; font-weight: 600;">Inicio</p>
+  <p onclick="cerrarTodo()" style="margin-bottom: 20px; font-weight: 600;">Productos</p>
+  <div style="display:flex; justify-content:space-between; align-items: center;">
+    <span>Modo Oscuro</span>
+    <input type="checkbox" onchange="document.body.classList.toggle('dark-mode')">
+  </div>
 </div>
 
 <div id="carrito" class="sidebar">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
     <h3>Tu Carrito</h3>
-    <button class="icon-btn" onclick="cerrarTodo()">&times;</button>
+    <div class="icon-btn" onclick="cerrarTodo()">&times;</div>
   </div>
-  <div id="cart-items" style="flex-grow:1; overflow-y:auto; padding-right: 5px;"></div>
-  <div style="padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.05);">
+  <div id="cart-items" style="flex-grow:1; overflow-y:auto;">
+    </div>
+  <div style="padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
     <h3 id="total-price" style="margin-bottom: 15px;">Total: $0</h3>
-    <button class="btn-add" onclick="abrirSiderbar('checkout')">CONTINUAR COMPRA</button>
+    <button class="btn-add" onclick="abrirSiderbar('checkout')" style="background: var(--blue);">CONTINUAR COMPRA</button>
   </div>
 </div>
 
 <div id="checkout" class="sidebar">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
     <h3>Tus Datos</h3>
-    <button class="icon-btn" onclick="abrirSiderbar('carrito')">⬅</button>
+    <div class="icon-btn" onclick="abrirSiderbar('carrito')">⬅</div>
   </div>
-  <div class="form-group"><label>NOMBRE</label><input type="text" id="f-nom" placeholder="Ej: Juan Perez"></div>
+  <div class="form-group"><label>NOMBRE</label><input type="text" id="f-nom" placeholder="Juan Perez"></div>
   <div class="form-group"><label>DIRECCIÓN</label><input type="text" id="f-dir" placeholder="Calle y altura"></div>
   <div class="form-group"><label>TELÉFONO</label><input type="tel" id="f-tel" placeholder="11 1234 5678"></div>
   <div class="form-group"><label>EMAIL</label><input type="email" id="f-mail" placeholder="juan@gmail.com"></div>
@@ -164,7 +169,6 @@ header {
 <div id="overlay" onclick="cerrarTodo()"></div>
 
 <a href="https://wa.me/5491127081095" class="wsp-float" target="_blank">📲</a>
-<button class="cart-float" onclick="abrirSiderbar('carrito')">🛒 <span id="float-count">0</span> Items</button>
 
 <script>
 const PRODUCTOS = [
@@ -173,49 +177,72 @@ const PRODUCTOS = [
   { id: 3, nombre: "Cable USB C + Cabezal", precio: 18000, img: "cable-usb-c.JPG" }
 ];
 
-let carrito = [];
+let carrito = JSON.parse(localStorage.getItem("iplugz_cart")) || [];
 
 function init() {
   const container = document.getElementById("lista-productos");
   container.innerHTML = PRODUCTOS.map(p => `
     <div class="producto">
-      <img src="${p.img}" alt="${p.nombre}">
+      <img src="${p.img}">
       <div class="p-info">
         <h3>${p.nombre}</h3>
         <p style="font-weight:bold; color:var(--blue); font-size:20px; margin-bottom:15px">$${p.precio.toLocaleString()}</p>
-        <button class="btn-add" onclick="agregarItem(${p.id})">Agregar</button>
+        <button class="btn-add" onclick="agregarItem(${p.id})">Agregar al carrito</button>
       </div>
     </div>
   `).join('');
+  actualizarVista();
 }
 
 function agregarItem(id) {
   const prod = PRODUCTOS.find(x => x.id === id);
-  carrito.push(prod);
+  const existe = carrito.find(x => x.id === id);
+  if(existe) {
+    existe.cantidad++;
+  } else {
+    carrito.push({...prod, cantidad: 1});
+  }
+  actualizarVista();
+}
+
+function cambiarCantidad(id, delta) {
+  const item = carrito.find(x => x.id === id);
+  if(item) {
+    item.cantidad += delta;
+    if(item.cantidad <= 0) {
+      carrito = carrito.filter(x => x.id !== id);
+    }
+  }
   actualizarVista();
 }
 
 function actualizarVista() {
   const container = document.getElementById("cart-items");
   let total = 0;
+  let totalItems = 0;
   
-  container.innerHTML = carrito.map((item, index) => {
-    total += item.precio;
+  container.innerHTML = carrito.map((item) => {
+    total += item.precio * item.cantidad;
+    totalItems += item.cantidad;
     return `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding:12px; background:rgba(0,0,0,0.03); border-radius:15px;">
-        <div style="font-size: 14px;"><b>${item.nombre}</b><br>$${item.precio.toLocaleString()}</div>
-        <button onclick="borrarItem(${index})" style="background:none; border:none; color:red; font-size:18px; cursor:pointer;">&times;</button>
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <b>${item.nombre}</b>
+          <span>$${item.precio.toLocaleString()}</span>
+        </div>
+        <div class="cart-item-btns">
+          <button class="btn-qty" onclick="cambiarCantidad(${item.id}, -1)">-</button>
+          <span>${item.cantidad}</span>
+          <button class="btn-qty" onclick="cambiarCantidad(${item.id}, 1)">+</button>
+        </div>
       </div>`;
   }).join('');
 
-  document.getElementById("total-price").innerText = "Total: $" + total.toLocaleString();
-  document.getElementById("contador").innerText = carrito.length;
-  document.getElementById("float-count").innerText = carrito.length;
-}
+  if(carrito.length === 0) container.innerHTML = "<p style='text-align:center; margin-top:20px; opacity:0.5'>El carrito está vacío</p>";
 
-function borrarItem(index) {
-  carrito.splice(index, 1);
-  actualizarVista();
+  document.getElementById("total-price").innerText = "Total: $" + total.toLocaleString();
+  document.getElementById("contador-badge").innerText = totalItems;
+  localStorage.setItem("iplugz_cart", JSON.stringify(carrito));
 }
 
 function abrirSiderbar(id) {
@@ -241,8 +268,8 @@ function enviarWhatsApp() {
   let msg = `*NUEVO PEDIDO iPlugz* 🚀\n\n👤 *Cliente:* ${nom}\n📍 *Dirección:* ${dir}\n📞 *Tel:* ${tel}\n✉️ *Email:* ${mail}\n\n📦 *Pedido:*\n`;
   let total = 0;
   carrito.forEach(p => {
-    msg += `- ${p.nombre} ($${p.precio.toLocaleString()})\n`;
-    total += p.precio;
+    msg += `- ${p.nombre} (x${p.cantidad}): $${(p.precio * p.cantidad).toLocaleString()}\n`;
+    total += p.precio * p.cantidad;
   });
   msg += `\n💰 *TOTAL: $${total.toLocaleString()}*`;
 
